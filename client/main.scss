@@ -1,0 +1,30 @@
+/* CSS declarations go here */
+// If you want to override materialize sass variables you can uncomment the following:
+@import "{poetic:materialize-scss}/sass/components/_color.scss";
+$primary-color: color("white", "lighten-2");
+
+// import main scss file
+@import "{poetic:materialize-scss}/sass/materialize.scss";
+
+
+.header-text {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.header-sub {
+  text-align: center;
+  font-style: italic;
+  margin-top: 0;
+}
+
+nav {
+  background: black;
+  height: 30px;
+  line-height: 30px;
+}
+
+nav ul a:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(0,0,0,1);
+}
