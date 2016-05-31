@@ -7,12 +7,11 @@ var moltin = require('moltin')({
 
 moltin.Authenticate(function() {
   Meteor.methods({
-    'tax.create'(tax) {
-      console.log(tax[0]);
+    'tax.create'(title, description, rate) {
       moltin.Tax.Create({
-        title: tax[0],
-        description: tax[1],
-        rate: tax[2]
+        title: title,
+        description: description,
+        rate: rate,
       }, function(tax) {
         console.log(tax);
       }, function(error) {
