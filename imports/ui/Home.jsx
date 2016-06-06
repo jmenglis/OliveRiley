@@ -2,21 +2,38 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 
+var IndividualProduct = React.createClass({
+  render() {
+    return (
+      <ul>
+        <li>{this.props.data.id}</li>
+        <li>{this.props.data.title}</li>
+        <li><img src={this.props.data.images[0].url.http}/></li>
+      </ul>
+    )
+  }
+})
+
 export default React.createClass({
-  getInitialState: () => {
-    return { services: [] }
+  getInitialState() {
+    return {
+      products: []
+    }
   },
-  componentDidMount: () => {
-    var self = this;
+  componentDidMount() {
     Meteor.call('product.get', (err, data) => {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(data);
-      }
+      this.setState({ products: data })
     })
   },
   render() {
-    return <div>Home</div>
+    return (
+      <div>
+        {this.state.products.map((prod, i) => {
+          console.log(prod)
+          return <IndividualProduct key={i} data={prod} />
+        })}
+      </div>
+    )
   }
 })
+
