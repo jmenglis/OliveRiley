@@ -9,6 +9,7 @@ var IndividualProduct = React.createClass({
         <li>{this.props.data.id}</li>
         <li>{this.props.data.title}</li>
         <li><img src={this.props.data.images[0].url.http}/></li>
+        <li>Price: {this.props.data.price.data.formatted.without_tax}</li>
       </ul>
     )
   }
