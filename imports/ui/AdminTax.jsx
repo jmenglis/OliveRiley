@@ -24,7 +24,7 @@ import { Meteor } from 'meteor/meteor';
   },
 });*/
 
-export default class AdminTax extends Component {
+export default React.createClass({
   handleSubmit(e) {
     e.preventDefault();
 
@@ -37,7 +37,7 @@ export default class AdminTax extends Component {
     ReactDOM.findDOMNode(this.refs.titleInput).value = '';
     ReactDOM.findDOMNode(this.refs.descriptionInput).value = '';
     ReactDOM.findDOMNode(this.refs.rateInput).value = '';
-  }
+  },
   render () {
     return (
       <div className="row">
@@ -63,7 +63,7 @@ export default class AdminTax extends Component {
           </div>
         </form>
       </div>
-    );
+    )
   }
-}
+})
 
