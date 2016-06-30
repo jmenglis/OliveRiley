@@ -6,9 +6,8 @@ var IndividualProduct = React.createClass({
   render() {
     return (
       <ul>
-        <li>{this.props.data.id}</li>
-        <li>{this.props.data.title}</li>
-        <li><img src={this.props.data.images[0].url.http}/></li>
+        <li><a href={`/products/${this.props.data.id}`}>{this.props.data.title}</a></li>
+        <li><a href={`/products/${this.props.data.id}`}><img src={this.props.data.images[0].url.http}/></a></li>
         <li>Price: {this.props.data.price.data.formatted.without_tax}</li>
       </ul>
     )
