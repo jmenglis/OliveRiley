@@ -6,8 +6,8 @@ var IndividualProduct = React.createClass({
   render() {
     return (
       <ul>
-        <li><a href={`/products/${this.props.data.id}`}>{this.props.data.title}</a></li>
-        <li><a href={`/products/${this.props.data.id}`}><img src={this.props.data.images[0].url.http}/></a></li>
+        <li><a href={`/products/${this.props.data.slug}`}>{this.props.data.title}</a></li>
+        <li><a href={`/products/${this.props.data.slug}`}><img src={this.props.data.images[0].url.http}/></a></li>
         <li>Price: {this.props.data.price.data.formatted.without_tax}</li>
       </ul>
     )
@@ -29,7 +29,6 @@ export default React.createClass({
     return (
       <div>
         {this.state.products.map((prod, i) => {
-          console.log(prod)
           return <IndividualProduct key={i} data={prod} />
         })}
       </div>
