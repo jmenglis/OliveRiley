@@ -8,7 +8,7 @@ import Product from './Product'
 module.exports = (
   <Route path="/" component={App}>
     <IndexRoute component={Home}/>
-      <Route path="/products/:id" component={Product}/>
     <Route path="/admintax/" component={AdminTax}/>
+    <Route path="/products/:id" component={Product}/>
   </Route>
 )
