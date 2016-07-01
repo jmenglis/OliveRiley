@@ -22,6 +22,13 @@ export default React.createClass({
       products: []
     }
   },
+  componentWillReceiveProps(nextProps) {
+    let categorySlug = nextProps.params.id
+    Meteor.call('category.get', categorySlug, (err, data) => {
+      console.log(data);
+      this.setState({ products: data })
+    })
+  },
   componentDidMount() {
     let categorySlug = this.props.params.id
     Meteor.call('category.get', categorySlug, (err, data) => {
