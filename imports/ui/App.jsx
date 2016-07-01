@@ -18,12 +18,12 @@ export default React.createClass({
           <div className="nav-wrapper">
             <div className="container">
               <ul className="hide-on-med-down">
-                <li><NavLink to="/clothing/">Clothing</NavLink></li>
-                <li><NavLink to="/strollers/">Strollers</NavLink></li>
-                <li><NavLink className="dropdown-button" to="/accessories/" data-activates="dropdown1">Accessories</NavLink></li>
-                <li><NavLink to="/bottle/">Bottle</NavLink></li>
-                <li><NavLink to="/other/">Other Things</NavLink></li>
-                <li><NavLink to="/admintax/">Admin Tax</NavLink></li>
+                <li><NavLink to="/category/clothing/">Clothing</NavLink></li>
+                <li><NavLink to="/category/strollers/">Strollers</NavLink></li>
+                <li><NavLink className="dropdown-button" to="/category/accessories/" data-activates="dropdown1">Accessories</NavLink></li>
+                <li><NavLink to="/category/bottle/">Bottle</NavLink></li>
+                <li><NavLink to="/category/other/">Other Things</NavLink></li>
+                <li><NavLink to="/category/admintax/">Admin Tax</NavLink></li>
               </ul>
             </div>
           </div>

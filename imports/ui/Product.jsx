@@ -27,7 +27,6 @@ export default React.createClass({
     return (
       <div>
         {this.state.product.map((prod, i) => {
-          console.log(prod.price.data)
           return (
               <div className="row">
                 <div className="col s6">
