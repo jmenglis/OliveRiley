@@ -1,5 +1,7 @@
 /* CSS declarations go here */
 // If you want to override materialize sass variables you can uncomment the following:
+@import 'slick-theme';
+@import 'slick';
 @import "{poetic:materialize-scss}/sass/components/_color.scss";
 $primary-color: color("white", "lighten-2");
 

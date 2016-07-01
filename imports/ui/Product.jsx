@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
+import Slider from 'react-slick'
 
 export default React.createClass({
   getInitialState() {
@@ -15,6 +16,16 @@ export default React.createClass({
     })
   },
   render() {
+    var settings = {
+      slidesToShow: 1,
+      dots: true,
+      autoplay: true,
+      dots: true,
+      infinite: true,
+      speed: 500,
+      fade: true,
+      cssEase: "linear",
+    }
     return (
       <div>
         {this.state.product.map((prod, i) => {
@@ -23,13 +34,15 @@ export default React.createClass({
             <div>
               <ul>
                 <li>{prod.title}</li>
-                {prod.images.map((image, i) => {
-                  return (
-                    <li key={i}>
-                      <img src={image.url.http} />
-                    </li>
-                  )
-                })}
+                <Slider {...settings}>
+                  {prod.images.map((image, i) => {
+                    return (
+                        <div key={i}>
+                            <li><img src={image.url.http} /></li>
+                        </div>
+                    )
+                  })}
+                </Slider>
                 <li>{prod.description}</li>
               </ul>
             </div>

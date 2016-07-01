@@ -10,3 +10,4 @@ $(".dropdown-button").dropdown();
 Meteor.startup(() => {
   render(<Router routes={routes} history={browserHistory} />, document.getElementById('react-render'));
 });
+

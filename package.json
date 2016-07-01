@@ -6,10 +6,12 @@
   },
   "dependencies": {
     "fibers": "^1.0.13",
+    "jquery": "^3.0.0",
     "meteor-node-stubs": "~0.2.0",
     "moltin": "^1.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-router": "^2.4.1"
+    "react-router": "^2.4.1",
+    "react-slick": "^0.12.2"
   }
 }
