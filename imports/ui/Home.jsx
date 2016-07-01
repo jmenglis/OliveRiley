@@ -21,7 +21,7 @@ export default React.createClass({
     }
   },
   componentDidMount() {
-    Meteor.call('product.get', (err, data) => {
+    Meteor.call('products.get', (err, data) => {
       this.setState({ products: data })
     })
   },
