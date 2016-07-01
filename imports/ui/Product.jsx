@@ -27,17 +27,20 @@ export default React.createClass({
     return (
       <div>
         {this.state.product.map((prod, i) => {
-          console.log(prod)
+          console.log(prod.price.data)
           return (
               <div className="row">
-                <div className="col s4">
+                <div className="col s6">
                   <h3>{prod.brand.value}</h3>
-                  <h5>{prod.title}</h5>
+                  <p>
+                    {prod.title}<br />
+                    <strong>{prod.price.data.formatted.without_tax}</strong>
+                  </p>
                   <p>{prod.description}</p>
                 </div>
-                <div className="col s2" style={{height: ' 2px'}}>
+                <div className="col s1" style={{height: ' 2px'}}>
                 </div>
-                <div className="col s4">
+                <div className="col s5">
                 <Slider {...settings}>
                   {prod.images.map((image, i) => {
                     return (

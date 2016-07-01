@@ -28,6 +28,7 @@ export default React.createClass({
             </div>
           </div>
         </nav>
+        <br />
         <div className="container">
         {this.props.children || <Home/>}
         </div>
