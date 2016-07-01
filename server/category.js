@@ -11,20 +11,13 @@ moltin.Authenticate(function() {
     'category.get'(categorySlug) {
       var p = new Promise( (resolve, reject) => {
       moltin.Category.List({slug: categorySlug }, function(category) {
-        resolve(category)
-      })
-    })
-    p.then((res) => {
-      var p2 = new Promise( (resolve, reject) => {
-        moltin.Product.Search({category: res[0].id }, function(product) {
+        moltin.Product.Search({category: category[0].id }, function(product) {
           resolve(product)
         })
       })
-      p2.then((res2) => {
-        console.log(res2)
-        return res2
-      })
-      return p2;
+    })
+    p.then((res) => {
+      return res;
     })
     return p;
     }
