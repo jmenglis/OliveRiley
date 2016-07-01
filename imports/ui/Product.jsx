@@ -18,11 +18,9 @@ export default React.createClass({
   render() {
     var settings = {
       slidesToShow: 1,
-      dots: true,
-      autoplay: true,
-      dots: true,
+      arrows: true,
+      draggable: false,
       infinite: true,
-      speed: 500,
       fade: true,
       cssEase: "linear",
     }
@@ -31,20 +29,25 @@ export default React.createClass({
         {this.state.product.map((prod, i) => {
           console.log(prod)
           return (
-            <div>
-              <ul>
-                <li>{prod.title}</li>
+              <div className="row">
+                <div className="col s4">
+                  <h3>{prod.brand.value}</h3>
+                  <h5>{prod.title}</h5>
+                  <p>{prod.description}</p>
+                </div>
+                <div className="col s2" style={{height: ' 2px'}}>
+                </div>
+                <div className="col s4">
                 <Slider {...settings}>
                   {prod.images.map((image, i) => {
                     return (
-                        <div key={i}>
-                            <li><img src={image.url.http} /></li>
+                        <div key={i} className="centerize">
+                          <img src={image.url.http} />
                         </div>
                     )
                   })}
                 </Slider>
-                <li>{prod.description}</li>
-              </ul>
+                </div>
             </div>
           )
         })}
