@@ -10,7 +10,7 @@ moltin.Authenticate(function() {
   Meteor.methods({
     'products.get'() {
       var p = new Promise( (resolve, reject) => {
-      moltin.Product.Search({category: "Strollers"}, function(products) {
+      moltin.Product.Search({}, function(products) {
         resolve(products)
       })
     })

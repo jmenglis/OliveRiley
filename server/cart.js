@@ -8,18 +8,10 @@ var moltin = require('moltin')({
 
 moltin.Authenticate(function() {
   Meteor.methods({
-    'category.get'(categorySlug) {
-      var p = new Promise( (resolve, reject) => {
-      moltin.Category.List({slug: categorySlug }, function(category) {
-        moltin.Product.Search({category: category[0].id }, function(product) {
-          resolve(product)
+    'cart.get'() {
+        moltin.Cart.Contents(function(items) {
+          console.log(items);
         })
-      })
-    })
-    p.then((res) => {
-      return res;
-    })
-    return p;
     }
   })
 })

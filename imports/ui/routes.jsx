@@ -5,6 +5,7 @@ import AdminTax from './AdminTax'
 import Home from './Home'
 import Product from './Product'
 import Category from './Category'
+import Cart from './Cart'
 
 module.exports = (
   <Route path="/" component={App}>
@@ -12,5 +13,6 @@ module.exports = (
     <Route path="/admintax/" component={AdminTax}/>
     <Route path="/category/:id" component={Category}/>
     <Route path="/products/:id" component={Product}/>
+    <Route path="/cart/" component={Cart}/>
   </Route>
 )
