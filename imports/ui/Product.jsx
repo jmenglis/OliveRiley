@@ -6,13 +6,21 @@ import Slider from 'react-slick'
 export default React.createClass({
   getInitialState() {
     return {
-      product: []
+      product: [],
+      message: ''
     }
   },
   componentDidMount() {
     let productSlug = this.props.params.id
     Meteor.call('product.get', productSlug, (err, data) => {
       this.setState({ product: data })
+    })
+  },
+  addCart(e) {
+    e.preventDefault()
+    let productId = this.state.product[0].id
+    Meteor.call('product.insertcart', productId, (err, data) => {
+      this.setState({ message: 'The product has been added to the cart: '})
     })
   },
   render() {
@@ -27,8 +35,9 @@ export default React.createClass({
     return (
       <div>
         {this.state.product.map((prod, i) => {
+          var self = this
           return (
-              <div className="row">
+              <div key={i} className="row">
                 <div className="col s6">
                   <h3>{prod.brand.value}</h3>
                   <p>
@@ -36,6 +45,9 @@ export default React.createClass({
                     <strong>{prod.price.data.formatted.without_tax}</strong>
                   </p>
                   <p>{prod.description}</p>
+                  <form onSubmit={this.addCart}>
+                    <input type="submit" value="Add to Cart" />
+                  </form>
                 </div>
                 <div className="col s1" style={{height: ' 2px'}}>
                 </div>

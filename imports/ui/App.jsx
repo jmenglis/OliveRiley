@@ -23,7 +23,7 @@ export default React.createClass({
                 <li><NavLink className="dropdown-button" to="/category/accessories/" data-activates="dropdown1">Accessories</NavLink></li>
                 <li><NavLink to="/category/bottle/">Bottle</NavLink></li>
                 <li><NavLink to="/category/other/">Other Things</NavLink></li>
-                <li><NavLink to="/admintax/">Admin Tax</NavLink></li>
+                <li><NavLink to="/cart/">Shopping Cart</NavLink></li>
               </ul>
             </div>
           </div>
