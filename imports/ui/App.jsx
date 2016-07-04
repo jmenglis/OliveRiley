@@ -9,7 +9,7 @@ export default React.createClass({
     return (
       <div>
         <h4 className="header-text"><Link to="/">Olive Riley</Link></h4>
-        <p className="header-sub">The world's premier baby destination</p>
+        <p className="header-sub">The world's premier destination</p>
         <ul id="dropdown1" className="dropdown-content">
           <li><NavLink to="/accessories/one/">one</NavLink></li>
           <li><NavLink to="/accessories/two/">two</NavLink></li>
