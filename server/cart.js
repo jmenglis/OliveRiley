@@ -9,9 +9,15 @@ var moltin = require('moltin')({
 moltin.Authenticate(function() {
   Meteor.methods({
     'cart.get'() {
+      var p = new Promise((resolve,reject) => {
         moltin.Cart.Contents(function(items) {
-          console.log(items);
+          resolve(items)
         })
+      })
+      p.then((items) => {
+        return items
+      })
+      return p
     }
   })
 })
