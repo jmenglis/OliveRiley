@@ -65,7 +65,9 @@
 	  hot: true
 	});
 
-	server.listen(8080, 'localhost', function () {});
+	server.listen(8080, 'localhost', function () {
+	  console.log("Dev-Server with Hot Reloading");
+	});
 
 /***/ },
 /* 1 */
@@ -104,7 +106,7 @@
 	    publicPath: 'http://localhost:8080/js/',
 	    filename: 'app.js'
 	  },
-	  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NoErrorsPlugin(), new webpack.optimize.DedupePlugin(), new webpack.optimize.OccurrenceOrderPlugin(), new webpack.optimize.UglifyJsPlugin()]
+	  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NoErrorsPlugin(), new webpack.optimize.DedupePlugin(), new webpack.optimize.OccurrenceOrderPlugin()]
 	};
 
 /***/ }

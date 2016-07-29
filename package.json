@@ -23,10 +23,14 @@
   "homepage": "https://github.com/jmenglis/OliveRiley#readme",
   "dependencies": {
     "hapi": "^13.5.2",
+    "inert": "^4.0.1",
     "nodemon": "^1.10.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "react-router": "^2.6.0"
+    "react-masonry-component": "^4.2.1",
+    "react-router": "^2.6.0",
+    "react-slick": "^0.12.2",
+    "superagent": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
