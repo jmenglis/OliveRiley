@@ -6,6 +6,7 @@ import Inert from 'inert'
 import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
 import routes from '../shared/routes.jsx'
+import appRoutes from './routes/main.js'
 
 const server = new Hapi.Server({
   connections: {
@@ -15,11 +16,6 @@ const server = new Hapi.Server({
       }
     }
   }
-})
-
-const moltin = require('moltin')({
-  publicId: process.env.MOLTIN_CLIENTID,
-  secretKey: process.env.MOLTIN_CLIENTSECRET
 })
 
 server.connection({ port:3000 })
@@ -66,67 +62,7 @@ server.route({
   }
 })
 
-moltin.Authenticate(() => {
-  server.route({
-    method: 'GET',
-    path: '/api/products',
-    handler: (request, reply) => {
-      var p = new Promise((resolve, reject) => {
-        moltin.Product.Search({}, (products) => {
-          resolve(products)
-        })
-      })
-      p.then((res) => {
-        return res
-      })
-      reply(p)
-    }
-  })
-  server.route({
-    method: 'POST',
-    path: '/api/product',
-    handler: (request, reply) => {
-      let p = new Promise( (resolve, reject) => {
-        moltin.Product.Search({slug: request.payload.product }, (product) => {
-          resolve(product)
-        })
-      })
-      p.then((res) => {
-        return res
-      })
-      reply(p)
-    }
-  })
-  server.route({
-    method: 'POST',
-    path: '/api/product/add',
-    handler: (request, reply) => {
-      let p = new Promise((resolve, reject) => {
-        moltin.Cart.Insert(request.payload.productId, '1', null, (cart) => {
-          console.log(cart);
-        })
-      })
-    }
-  })
-  server.route({
-    method: 'POST',
-    path: '/api/category',
-    handler: (request, reply) => {
-      let p = new Promise((resolve, reject) => {
-        moltin.Category.List({slug: request.payload.category }, (category) => {
-          moltin.Product.Search({category: category[0].id }, (product) => {
-            resolve(product)
-          })
-        })
-      })
-      p.then((res) => {
-        return res;
-      })
-      reply(p)
-    }
-  })
-
-})
+server.route(appRoutes)
 
 server.route({
   method: 'GET',

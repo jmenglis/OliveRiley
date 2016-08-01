@@ -70,9 +70,13 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
+	var _main = __webpack_require__(17);
+
+	var _main2 = _interopRequireDefault(_main);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(17).config();
+	__webpack_require__(19).config();
 
 
 	var server = new _hapi2.default.Server({
@@ -83,11 +87,6 @@
 	      }
 	    }
 	  }
-	});
-
-	var moltin = __webpack_require__(18)({
-	  publicId: process.env.MOLTIN_CLIENTID,
-	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
 
 	server.connection({ port: 3000 });
@@ -134,66 +133,7 @@
 	  }
 	});
 
-	moltin.Authenticate(function () {
-	  server.route({
-	    method: 'GET',
-	    path: '/api/products',
-	    handler: function handler(request, reply) {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Product.Search({}, function (products) {
-	          resolve(products);
-	        });
-	      });
-	      p.then(function (res) {
-	        return res;
-	      });
-	      reply(p);
-	    }
-	  });
-	  server.route({
-	    method: 'POST',
-	    path: '/api/product',
-	    handler: function handler(request, reply) {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Product.Search({ slug: request.payload.product }, function (product) {
-	          resolve(product);
-	        });
-	      });
-	      p.then(function (res) {
-	        return res;
-	      });
-	      reply(p);
-	    }
-	  });
-	  server.route({
-	    method: 'POST',
-	    path: '/api/product/add',
-	    handler: function handler(request, reply) {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {
-	          console.log(cart);
-	        });
-	      });
-	    }
-	  });
-	  server.route({
-	    method: 'POST',
-	    path: '/api/category',
-	    handler: function handler(request, reply) {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Category.List({ slug: request.payload.category }, function (category) {
-	          moltin.Product.Search({ category: category[0].id }, function (product) {
-	            resolve(product);
-	          });
-	        });
-	      });
-	      p.then(function (res) {
-	        return res;
-	      });
-	      reply(p);
-	    }
-	  });
-	});
+	server.route(_main2.default);
 
 	server.route({
 	  method: 'GET',
@@ -948,15 +888,127 @@
 
 /***/ },
 /* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _product = __webpack_require__(18);
+
+	var _product2 = _interopRequireDefault(_product);
+
+	var _category = __webpack_require__(21);
+
+	var _category2 = _interopRequireDefault(_category);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports = [].concat(_product2.default, _category2.default);
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(19).config();
+
+	var moltin = __webpack_require__(20)({
+	  publicId: process.env.MOLTIN_CLIENTID,
+	  secretKey: process.env.MOLTIN_CLIENTSECRET
+	});
+
+	module.exports = [{
+	  method: 'GET',
+	  path: '/api/products',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Product.Search({}, function (products) {
+	          resolve(products);
+	        }, function (error) {
+	          console.log(error);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    });
+	  }
+	}, {
+	  method: 'POST',
+	  path: '/api/product',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Product.Search({ slug: request.payload.product }, function (product) {
+	          resolve(product);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    });
+	  }
+	}, {
+	  method: 'POST',
+	  path: '/api/product/add',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {
+	          console.log(cart);
+	        });
+	      });
+	    });
+	  }
+	}];
+
+/***/ },
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = require("dotenv");
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = require("moltin");
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(19).config();
+
+	var moltin = __webpack_require__(20)({
+	  publicId: process.env.MOLTIN_CLIENTID,
+	  secretKey: process.env.MOLTIN_CLIENTSECRET
+	});
+
+	module.exports = [{
+	  method: 'POST',
+	  path: '/api/category',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Category.List({ slug: request.payload.category }, function (category) {
+	          moltin.Product.Search({ category: category[0].id }, function (product) {
+	            resolve(product);
+	          });
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    });
+	  }
+	}];
 
 /***/ }
 /******/ ]);
