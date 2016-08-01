@@ -25,7 +25,7 @@ export default class Product extends Component {
     e.preventDefault()
     let productId = this.state.product[0].id
     request
-      .post('/api/product/add')
+      .post('/api/cart/add')
       .send({productId: productId})
       .end((err, res) => {
         console.log(res)

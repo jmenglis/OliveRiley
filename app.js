@@ -642,7 +642,7 @@
 
 	      e.preventDefault();
 	      var productId = this.state.product[0].id;
-	      _superagent2.default.post('/api/product/add').send({ productId: productId }).end(function (err, res) {
+	      _superagent2.default.post('/api/cart/add').send({ productId: productId }).end(function (err, res) {
 	        console.log(res);
 	        _this3.setState({ message: "The product has been added to the cart." });
 	      });
@@ -900,9 +900,13 @@
 
 	var _category2 = _interopRequireDefault(_category);
 
+	var _cart = __webpack_require__(22);
+
+	var _cart2 = _interopRequireDefault(_cart);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports = [].concat(_product2.default, _category2.default);
+	module.exports = [].concat(_product2.default, _category2.default, _cart2.default);
 
 /***/ },
 /* 18 */
@@ -925,8 +929,6 @@
 	      var p = new Promise(function (resolve, reject) {
 	        moltin.Product.Search({}, function (products) {
 	          resolve(products);
-	        }, function (error) {
-	          console.log(error);
 	        });
 	      });
 	      p.then(function (res) {
@@ -949,18 +951,6 @@
 	        return res;
 	      });
 	      reply(p);
-	    });
-	  }
-	}, {
-	  method: 'POST',
-	  path: '/api/product/add',
-	  handler: function handler(request, reply) {
-	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {
-	          console.log(cart);
-	        });
-	      });
 	    });
 	  }
 	}];
@@ -1006,6 +996,33 @@
 	        return res;
 	      });
 	      reply(p);
+	    });
+	  }
+	}];
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(19).config();
+
+	var moltin = __webpack_require__(20)({
+	  publicId: process.env.MOLTIN_CLIENTID,
+	  secretKey: process.env.MOLTIN_CLIENTSECRET
+	});
+
+	module.exports = [{
+	  method: 'POST',
+	  path: '/api/cart/add',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {
+	          console.log(cart);
+	        });
+	      });
 	    });
 	  }
 	}];
