@@ -126,10 +126,6 @@ moltin.Authenticate(() => {
     }
   })
 
-
-
-
-
 })
 
 server.route({

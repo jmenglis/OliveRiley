@@ -75,8 +75,6 @@
 	__webpack_require__(17).config();
 
 
-	//Imp
-
 	var server = new _hapi2.default.Server({
 	  connections: {
 	    routes: {
@@ -136,7 +134,66 @@
 	  }
 	});
 
-	moltin.Authenticate(function () {});
+	moltin.Authenticate(function () {
+	  server.route({
+	    method: 'GET',
+	    path: '/api/products',
+	    handler: function handler(request, reply) {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Product.Search({}, function (products) {
+	          resolve(products);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    }
+	  });
+	  server.route({
+	    method: 'POST',
+	    path: '/api/product',
+	    handler: function handler(request, reply) {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Product.Search({ slug: request.payload.product }, function (product) {
+	          resolve(product);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    }
+	  });
+	  server.route({
+	    method: 'POST',
+	    path: '/api/product/add',
+	    handler: function handler(request, reply) {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {
+	          console.log(cart);
+	        });
+	      });
+	    }
+	  });
+	  server.route({
+	    method: 'POST',
+	    path: '/api/category',
+	    handler: function handler(request, reply) {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Category.List({ slug: request.payload.category }, function (category) {
+	          moltin.Product.Search({ category: category[0].id }, function (product) {
+	            resolve(product);
+	          });
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    }
+	  });
+	});
 
 	server.route({
 	  method: 'GET',
