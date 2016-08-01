@@ -58,15 +58,22 @@
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _server = __webpack_require__(4);
+	var _inert = __webpack_require__(4);
 
-	var _reactRouter = __webpack_require__(5);
+	var _inert2 = _interopRequireDefault(_inert);
 
-	var _routes = __webpack_require__(6);
+	var _server = __webpack_require__(5);
+
+	var _reactRouter = __webpack_require__(6);
+
+	var _routes = __webpack_require__(7);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(14).config();
+
 
 	var server = new _hapi2.default.Server({
 	  connections: {
@@ -78,80 +85,102 @@
 	  }
 	});
 
+	var moltin = __webpack_require__(15)({
+	  publicId: process.env.MOLTIN_CLIENTID,
+	  secretKey: process.env.MOLTIN_CLIENTSECRET
+	});
+
 	server.connection({ port: 3000 });
 
-	server.register(__webpack_require__(12), function (err) {
+	server.register(_inert2.default, function () {});
+
+	// stylesheet route
+	server.route({
+	  method: 'GET',
+	  path: '/main.css',
+	  handler: function handler(request, reply) {
+	    reply.file('./stylesheet/main.css');
+	  }
+	});
+
+	// fonts route
+	server.route({
+	  method: 'GET',
+	  path: '/fonts/{param*}',
+	  handler: {
+	    directory: {
+	      path: './fonts'
+	    }
+	  }
+	});
+	// images route
+	server.route({
+	  method: 'GET',
+	  path: '/images/{param*}',
+	  handler: {
+	    directory: {
+	      path: './images'
+	    }
+	  }
+	});
+	// javascript route
+	server.route({
+	  method: 'GET',
+	  path: '/javascripts/{param*}',
+	  handler: {
+	    directory: {
+	      path: './javascripts'
+	    }
+	  }
+	});
+
+	moltin.Authenticate(function () {
+	  server.route({
+	    method: 'GET',
+	    path: '/api/products',
+	    handler: function handler(request, reply) {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Product.Search({}, function (products) {
+	          resolve(products);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    }
+	  });
+	});
+
+	server.route({
+	  method: 'GET',
+	  path: '/{param*}',
+	  handler: function handler(request, reply) {
+	    (0, _reactRouter.match)({ routes: _routes2.default, location: request.url.path }, function (err, redirect, props) {
+	      if (err) {
+	        reply(err.message).code(500);
+	      } else if (redirect) {
+	        reply('redirect').redirect(redirect.pathname + redirect.search);
+	      } else if (props) {
+	        var appHtml = (0, _server.renderToString)(_react2.default.createElement(_reactRouter.RouterContext, props));
+	        reply(renderPage(appHtml));
+	      } else {
+	        reply('Not Found').code(404);
+	      }
+	    });
+	  }
+	});
+
+	var renderPage = function renderPage(appHtml) {
+	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <div id=react-render>' + appHtml + '</div>\n    <script src="/javascripts/jquery-3.0.0.js"></script>\n    <script src="/javascripts/materialize.js"></script>\n    <script src="http://localhost:8080/js/app.js"></script>\n   ';
+	};
+
+	// starting server on port 3000
+	server.start(function (err) {
 	  if (err) {
 	    throw err;
 	  }
-	  // stylesheet route
-	  server.route({
-	    method: 'GET',
-	    path: '/main.css',
-	    handler: function handler(request, reply) {
-	      reply.file('./stylesheet/main.css');
-	    }
-	  });
-	  // fonts route
-	  server.route({
-	    method: 'GET',
-	    path: '/fonts/{param*}',
-	    handler: {
-	      directory: {
-	        path: './fonts'
-	      }
-	    }
-	  });
-	  // images route
-	  server.route({
-	    method: 'GET',
-	    path: '/images/{param*}',
-	    handler: {
-	      directory: {
-	        path: './images'
-	      }
-	    }
-	  });
-	  // javascript route
-	  server.route({
-	    method: 'GET',
-	    path: '/javascripts/{param*}',
-	    handler: {
-	      directory: {
-	        path: './javascripts'
-	      }
-	    }
-	  });
-
-	  server.route({
-	    method: 'GET',
-	    path: '/{param*}',
-	    handler: function handler(request, reply) {
-	      (0, _reactRouter.match)({ routes: _routes2.default, location: request.url.path }, function (err, redirect, props) {
-	        if (err) {
-	          reply(err.message).code(500);
-	        } else if (redirect) {
-	          reply('redirect').redirect(redirect.pathname + redirect.search);
-	        } else if (props) {
-	          var appHtml = (0, _server.renderToString)(_react2.default.createElement(_reactRouter.RouterContext, props));
-	          reply(renderPage(appHtml));
-	        } else {
-	          reply('Not Found').code(404);
-	        }
-	      });
-	    }
-	  });
-
-	  var renderPage = function renderPage(appHtml) {
-	    return '\n      <!doctype html public="storage">\n      <html>\n      <meta charset=utf-8/>\n      <title>Application - Home</title>\n      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n      <link rel="stylesheet" href="/main.css" />\n      <div id=react-render>' + appHtml + '</div>\n      <script src="/javascripts/jquery-3.0.0.js"></script>\n      <script src="/javascripts/materialize.js"></script>\n      <script src="http://localhost:8080/js/app.js"></script>\n     ';
-	  };
-
-	  server.start(function (err) {
-	    if (err) {
-	      throw err;
-	    }
-	    console.log('Server is running at:', server.info.uri);
-	  });
+	  console.log('Server is running at:', server.info.uri);
 	});
 
 /***/ },
@@ -176,16 +205,22 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = require("react-dom/server");
+	module.exports = require("inert");
 
 /***/ },
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = require("react-router");
+	module.exports = require("react-dom/server");
 
 /***/ },
 /* 6 */
+/***/ function(module, exports) {
+
+	module.exports = require("react-router");
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -194,13 +229,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(5);
+	var _reactRouter = __webpack_require__(6);
 
-	var _App = __webpack_require__(7);
+	var _App = __webpack_require__(8);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Home = __webpack_require__(9);
+	var _Home = __webpack_require__(10);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
@@ -213,7 +248,7 @@
 	);
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -226,9 +261,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(5);
+	var _reactRouter = __webpack_require__(6);
 
-	var _NavLink = __webpack_require__(8);
+	var _NavLink = __webpack_require__(9);
 
 	var _NavLink2 = _interopRequireDefault(_NavLink);
 
@@ -357,7 +392,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -372,7 +407,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(5);
+	var _reactRouter = __webpack_require__(6);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -384,7 +419,7 @@
 	});
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -397,13 +432,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(10);
+	var _reactDom = __webpack_require__(11);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactMasonryComponent = __webpack_require__(11);
+	var _reactMasonryComponent = __webpack_require__(12);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
+
+	var _superagent = __webpack_require__(13);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -461,9 +500,9 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    // Meteor.call('products.get', (err, data) => {
-	    //   this.setState({ products: data })
-	    // })
+	    _superagent2.default.get('/api/products').end(function (err, res) {
+	      console.log(res);
+	    });
 	  },
 	  render: function render() {
 	    var masonryOptions = {
@@ -490,22 +529,34 @@
 	});
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dom");
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-masonry-component");
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
-	module.exports = require("inert");
+	module.exports = require("superagent");
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = require("dotenv");
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = require("moltin");
 
 /***/ }
 /******/ ]);

@@ -7,6 +7,6 @@ const server = new WebpackDevServer(webpack(config), {
   hot: true,
 })
 
-server.listen(8080, 'localhost', function() {
+server.listen(8080, 'localhost', () => {
   console.log("Dev-Server with Hot Reloading")
 })

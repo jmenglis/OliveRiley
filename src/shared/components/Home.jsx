@@ -1,11 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import Masonry from 'react-masonry-component';
+import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
+import Masonry from 'react-masonry-component'
+import request from 'superagent'
 
-var IndividualProduct = React.createClass({
+class IndividualProduct extends Component {
   render() {
     return (
-      <ul class="product-image-element">
+      <ul className="product-image-element">
         <li><a href={`/products/${this.props.data.slug}`}><img width="180" height="270" src={this.props.data.images[0].url.http}/></a></li>
         <li><strong><a href={`/products/${this.props.data.slug}`}>{this.props.data.brand.value.toUpperCase()}</a></strong></li>
         <li><a href={`/products/${this.props.data.slug}`}>{this.props.data.title}</a></li>
@@ -13,19 +14,22 @@ var IndividualProduct = React.createClass({
       </ul>
     )
   }
-})
+}
 
-export default React.createClass({
-  getInitialState() {
-    return {
+export default class Home extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       products: []
     }
-  },
+  }
   componentDidMount() {
-    // Meteor.call('products.get', (err, data) => {
-    //   this.setState({ products: data })
-    // })
-  },
+    request
+      .get('/api/products')
+      .end((err, res) => {
+        this.setState({ products: res.body })
+      })
+  }
   render() {
     var masonryOptions = {
       columnWidth: 200,
@@ -48,5 +52,5 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
 
