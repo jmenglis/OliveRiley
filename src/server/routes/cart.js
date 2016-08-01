@@ -7,7 +7,7 @@ const moltin = require('moltin')({
 
 module.exports = [
   {
-    method: 'POST',git st
+    method: 'POST',
     path: '/api/cart/add',
     handler: (request, reply) => {
       moltin.Authenticate(() => {
