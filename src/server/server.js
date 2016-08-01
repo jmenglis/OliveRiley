@@ -82,6 +82,21 @@ moltin.Authenticate(() => {
       reply(p)
     }
   })
+  server.route({
+    method: 'POST',
+    path: '/api/product',
+    handler: (request, reply) => {
+      let p = new Promise( (resolve, reject) => {
+        moltin.Product.Search({slug: request.payload.product }, (product) => {
+          resolve(product)
+        })
+      })
+      p.then((res) => {
+        return res
+      })
+      reply(p)
+    }
+  })
 })
 
 server.route({

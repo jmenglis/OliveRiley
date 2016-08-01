@@ -72,7 +72,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(14).config();
+	__webpack_require__(16).config();
 
 
 	var server = new _hapi2.default.Server({
@@ -85,7 +85,7 @@
 	  }
 	});
 
-	var moltin = __webpack_require__(15)({
+	var moltin = __webpack_require__(17)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -142,6 +142,21 @@
 	      var p = new Promise(function (resolve, reject) {
 	        moltin.Product.Search({}, function (products) {
 	          resolve(products);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    }
+	  });
+	  server.route({
+	    method: 'POST',
+	    path: '/api/product',
+	    handler: function handler(request, reply) {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Product.Search({ slug: request.payload.product }, function (product) {
+	          resolve(product);
 	        });
 	      });
 	      p.then(function (res) {
@@ -239,12 +254,17 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
+	var _Product = __webpack_require__(14);
+
+	var _Product2 = _interopRequireDefault(_Product);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = _react2.default.createElement(
 	  _reactRouter.Route,
 	  { path: '/', component: _App2.default },
-	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default })
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/products/:id', component: _Product2.default })
 	);
 
 /***/ },
@@ -428,6 +448,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -446,87 +468,123 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var IndividualProduct = _react2.default.createClass({
-	  displayName: 'IndividualProduct',
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'ul',
-	      { 'class': 'product-image-element' },
-	      _react2.default.createElement(
-	        'li',
-	        null,
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var IndividualProduct = function (_Component) {
+	  _inherits(IndividualProduct, _Component);
+
+	  function IndividualProduct() {
+	    _classCallCheck(this, IndividualProduct);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(IndividualProduct).apply(this, arguments));
+	  }
+
+	  _createClass(IndividualProduct, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'ul',
+	        { className: 'product-image-element' },
 	        _react2.default.createElement(
-	          'a',
-	          { href: '/products/' + this.props.data.slug },
-	          _react2.default.createElement('img', { width: '180', height: '270', src: this.props.data.images[0].url.http })
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(
-	          'strong',
+	          'li',
 	          null,
 	          _react2.default.createElement(
 	            'a',
 	            { href: '/products/' + this.props.data.slug },
-	            this.props.data.brand.value.toUpperCase()
+	            _react2.default.createElement('img', { width: '180', height: '270', src: this.props.data.images[0].url.http })
 	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
+	        ),
 	        _react2.default.createElement(
-	          'a',
-	          { href: '/products/' + this.props.data.slug },
-	          this.props.data.title
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'strong',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/products/' + this.props.data.slug },
+	              this.props.data.brand.value.toUpperCase()
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '/products/' + this.props.data.slug },
+	            this.props.data.title
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          this.props.data.price.data.formatted.without_tax
 	        )
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        this.props.data.price.data.formatted.without_tax
-	      )
-	    );
-	  }
-	});
+	      );
+	    }
+	  }]);
 
-	exports.default = _react2.default.createClass({
-	  displayName: 'Home',
-	  getInitialState: function getInitialState() {
-	    return {
+	  return IndividualProduct;
+	}(_react.Component);
+
+	var Home = function (_Component2) {
+	  _inherits(Home, _Component2);
+
+	  function Home(props) {
+	    _classCallCheck(this, Home);
+
+	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this, props));
+
+	    _this2.state = {
 	      products: []
 	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    _superagent2.default.get('/api/products').end(function (err, res) {
-	      console.log(res);
-	    });
-	  },
-	  render: function render() {
-	    var masonryOptions = {
-	      columnWidth: 200,
-	      isFitWidth: true,
-	      gutter: 100
-	    };
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        _reactMasonryComponent2.default,
-	        {
-	          className: 'product-grid',
-	          elementType: 'div',
-	          options: masonryOptions
-	        },
-	        this.state.products.map(function (prod, i) {
-	          return _react2.default.createElement(IndividualProduct, { key: i, data: prod });
-	        })
-	      )
-	    );
+	    return _this2;
 	  }
-	});
+
+	  _createClass(Home, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this3 = this;
+
+	      _superagent2.default.get('/api/products').end(function (err, res) {
+	        _this3.setState({ products: res.body });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var masonryOptions = {
+	        columnWidth: 200,
+	        isFitWidth: true,
+	        gutter: 100
+	      };
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          _reactMasonryComponent2.default,
+	          {
+	            className: 'product-grid',
+	            elementType: 'div',
+	            options: masonryOptions
+	          },
+	          this.state.products.map(function (prod, i) {
+	            return _react2.default.createElement(IndividualProduct, { key: i, data: prod });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Home;
+	}(_react.Component);
+
+	exports.default = Home;
 
 /***/ },
 /* 11 */
@@ -548,12 +606,161 @@
 
 /***/ },
 /* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactSlick = __webpack_require__(15);
+
+	var _reactSlick2 = _interopRequireDefault(_reactSlick);
+
+	var _superagent = __webpack_require__(13);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Product = function (_Component) {
+	  _inherits(Product, _Component);
+
+	  function Product(props) {
+	    _classCallCheck(this, Product);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Product).call(this, props));
+
+	    _this.state = {
+	      product: [],
+	      message: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Product, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      var productSlug = this.props.params.id;
+	      console.log(productSlug);
+	      _superagent2.default.post('/api/product').send({ product: productSlug }).end(function (err, res) {
+	        _this2.setState({ product: res.body });
+	      });
+	    }
+	  }, {
+	    key: 'addCart',
+	    value: function addCart(e) {
+	      e.preventDefault();
+	      var productId = this.state.product[0].id;
+	      console.log('Product added to the cart');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      var settings = {
+	        slidesToShow: 1,
+	        arrows: true,
+	        draggable: false,
+	        infinite: true,
+	        fade: true,
+	        cssEase: "linear"
+	      };
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.state.product.map(function (prod, i) {
+	          var self = _this3;
+	          return _react2.default.createElement(
+	            'div',
+	            { key: i, className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col s6' },
+	              _react2.default.createElement(
+	                'h3',
+	                null,
+	                prod.brand.value
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                prod.title,
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                  'strong',
+	                  null,
+	                  prod.price.data.formatted.without_tax
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                prod.description
+	              ),
+	              _react2.default.createElement(
+	                'form',
+	                { onSubmit: _this3.addCart },
+	                _react2.default.createElement('input', { type: 'submit', value: 'Add to Cart' })
+	              )
+	            ),
+	            _react2.default.createElement('div', { className: 'col s1', style: { height: ' 2px' } }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col s5' },
+	              _react2.default.createElement(
+	                _reactSlick2.default,
+	                settings,
+	                prod.images.map(function (image, i) {
+	                  return _react2.default.createElement(
+	                    'div',
+	                    { key: i, className: 'centerize' },
+	                    _react2.default.createElement('img', { src: image.url.http })
+	                  );
+	                })
+	              )
+	            )
+	          );
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Product;
+	}(_react.Component);
+
+	exports.default = Product;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = require("react-slick");
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = require("dotenv");
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = require("moltin");
