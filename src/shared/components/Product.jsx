@@ -24,7 +24,13 @@ export default class Product extends Component {
   addCart(e) {
     e.preventDefault()
     let productId = this.state.product[0].id
-    console.log('Product added to the cart')
+    request
+      .post('/api/product/add')
+      .send({productId: productId})
+      .end((err, res) => {
+        console.log(res)
+        this.setState({ message: "The product has been added to the cart." })
+      })
   }
   render() {
     var settings = {
@@ -48,7 +54,7 @@ export default class Product extends Component {
                   <strong>{prod.price.data.formatted.without_tax}</strong>
                 </p>
                 <p>{prod.description}</p>
-                <form onSubmit={this.addCart}>
+                <form onSubmit={this.addCart.bind(this)}>
                   <input type="submit" value="Add to Cart" />
                 </form>
               </div>

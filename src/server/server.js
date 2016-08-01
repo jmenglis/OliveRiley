@@ -97,6 +97,39 @@ moltin.Authenticate(() => {
       reply(p)
     }
   })
+  server.route({
+    method: 'POST',
+    path: '/api/product/add',
+    handler: (request, reply) => {
+      let p = new Promise((resolve, reject) => {
+        moltin.Cart.Insert(request.payload.productId, '1', null, (cart) => {
+          console.log(cart);
+        })
+      })
+    }
+  })
+  server.route({
+    method: 'POST',
+    path: '/api/category',
+    handler: (request, reply) => {
+      let p = new Promise((resolve, reject) => {
+        moltin.Category.List({slug: request.payload.category }, (category) => {
+          moltin.Product.Search({category: category[0].id }, (product) => {
+            resolve(product)
+          })
+        })
+      })
+      p.then((res) => {
+        return res;
+      })
+      reply(p)
+    }
+  })
+
+
+
+
+
 })
 
 server.route({
