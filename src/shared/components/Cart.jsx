@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import request from 'superagent'
 import Masonry from 'react-masonry-component'
-import _ from 'lodash'
 
 export default class Cart extends Component {
   constructor(props) {
@@ -11,43 +11,37 @@ export default class Cart extends Component {
     this.pluckByName = this.pluckByName.bind(this)
   }
   pluckByName(inArr, id, exists) {
-    for (i = 0; i < inArr.length; i++) {
+    for (let i = 0; i < inArr.length; i++) {
       if (inArr[i].id == id) {
         return (exists === true) ? true : inArr[i]
       }
     }
   }
   componentDidMount() {
-    Meteor.call('cart.get', (err, data) => {
-      for (let key in data) {
-        for (let key in data.contents) {
-          let itemsObject = data.contents[Object.keys(data.contents)]
-          for (let key in itemsObject) {
-            let itemObject = {
-              id: itemsObject.id,
-              name: itemsObject.name,
-              price: itemsObject.price.toFixed(2),
-              image: itemsObject.images[0].url.http,
-              slug: itemsObject.slug
-            }
-
-            if (!this.pluckByName(this.state.products, itemObject.id, true)) {
-              this.setState({products: this.state.products.concat(itemObject)})
-              console.log(this.state.products)
-            } else {
-              console.log("false")
-            }
+    request
+      .get('/api/cart')
+      .end((err, res) => {
+        for (let key in res.body.contents) {
+          let itemObject = {
+            id: res.body.contents[key].id,
+            name: res.body.contents[key].name,
+            price: res.body.contents[key].price.toFixed(2),
+            image: res.body.contents[key].images[0].url.http,
+            slug: res.body.contents[key].slug,
+            quantity: res.body.contents[key].quantity
           }
+          this.setState({products: this.state.products.concat(itemObject)})
         }
-      }
-    })
+      })
   }
   render() {
+    console.log(this.state.products)
     return (
       <div>
-        <h1>Cart</h1>
+        <div className="cenerize">
+          <h4>Your Shopping Cart</h4>
+        </div>
       </div>
     )
   }
 }
-

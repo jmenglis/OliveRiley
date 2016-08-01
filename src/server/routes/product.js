@@ -11,7 +11,7 @@ module.exports = [
     path: '/api/products',
     handler: (request, reply) => {
       moltin.Authenticate(() => {
-        var p = new Promise((resolve, reject) => {
+        let p = new Promise((resolve, reject) => {
           moltin.Product.Search({}, (products) => {
             resolve(products)
           })

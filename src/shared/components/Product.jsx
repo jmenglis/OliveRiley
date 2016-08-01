@@ -28,7 +28,6 @@ export default class Product extends Component {
       .post('/api/cart/add')
       .send({productId: productId})
       .end((err, res) => {
-        console.log(res)
         this.setState({ message: "The product has been added to the cart." })
       })
   }
@@ -44,7 +43,6 @@ export default class Product extends Component {
     return (
       <div>
         {this.state.product.map((prod, i) => {
-          var self = this
           return (
             <div key={i} className="row">
               <div className="col s6">

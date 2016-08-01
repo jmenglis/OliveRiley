@@ -70,13 +70,13 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _main = __webpack_require__(17);
+	var _main = __webpack_require__(18);
 
 	var _main2 = _interopRequireDefault(_main);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(19).config();
+	__webpack_require__(20).config();
 
 
 	var server = new _hapi2.default.Server({
@@ -230,6 +230,10 @@
 
 	var _Category2 = _interopRequireDefault(_Category);
 
+	var _Cart = __webpack_require__(17);
+
+	var _Cart2 = _interopRequireDefault(_Cart);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = _react2.default.createElement(
@@ -237,7 +241,8 @@
 	  { path: '/', component: _App2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/category/:id', component: _Category2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/products/:id', component: _Product2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/products/:id', component: _Product2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/cart/', component: _Cart2.default })
 	);
 
 /***/ },
@@ -643,7 +648,6 @@
 	      e.preventDefault();
 	      var productId = this.state.product[0].id;
 	      _superagent2.default.post('/api/cart/add').send({ productId: productId }).end(function (err, res) {
-	        console.log(res);
 	        _this3.setState({ message: "The product has been added to the cart." });
 	      });
 	    }
@@ -664,7 +668,6 @@
 	        'div',
 	        null,
 	        this.state.product.map(function (prod, i) {
-	          var self = _this4;
 	          return _react2.default.createElement(
 	            'div',
 	            { key: i, className: 'row' },
@@ -892,15 +895,115 @@
 
 	'use strict';
 
-	var _product = __webpack_require__(18);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _superagent = __webpack_require__(13);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	var _reactMasonryComponent = __webpack_require__(12);
+
+	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Cart = function (_Component) {
+	  _inherits(Cart, _Component);
+
+	  function Cart(props) {
+	    _classCallCheck(this, Cart);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Cart).call(this, props));
+
+	    _this.state = {
+	      products: []
+	    };
+	    _this.pluckByName = _this.pluckByName.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Cart, [{
+	    key: 'pluckByName',
+	    value: function pluckByName(inArr, id, exists) {
+	      for (var i = 0; i < inArr.length; i++) {
+	        if (inArr[i].id == id) {
+	          return exists === true ? true : inArr[i];
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      _superagent2.default.get('/api/cart').end(function (err, res) {
+	        for (var key in res.body.contents) {
+	          var itemObject = {
+	            id: res.body.contents[key].id,
+	            name: res.body.contents[key].name,
+	            price: res.body.contents[key].price.toFixed(2),
+	            image: res.body.contents[key].images[0].url.http,
+	            slug: res.body.contents[key].slug,
+	            quantity: res.body.contents[key].quantity
+	          };
+	          _this2.setState({ products: _this2.state.products.concat(itemObject) });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log(this.state.products);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'cenerize' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Your Shopping Cart'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Cart;
+	}(_react.Component);
+
+	exports.default = Cart;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _product = __webpack_require__(19);
 
 	var _product2 = _interopRequireDefault(_product);
 
-	var _category = __webpack_require__(21);
+	var _category = __webpack_require__(22);
 
 	var _category2 = _interopRequireDefault(_category);
 
-	var _cart = __webpack_require__(22);
+	var _cart = __webpack_require__(23);
 
 	var _cart2 = _interopRequireDefault(_cart);
 
@@ -909,14 +1012,14 @@
 	module.exports = [].concat(_product2.default, _category2.default, _cart2.default);
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(19).config();
+	__webpack_require__(20).config();
 
-	var moltin = __webpack_require__(20)({
+	var moltin = __webpack_require__(21)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -956,26 +1059,26 @@
 	}];
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = require("dotenv");
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = require("moltin");
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(19).config();
+	__webpack_require__(20).config();
 
-	var moltin = __webpack_require__(20)({
+	var moltin = __webpack_require__(21)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1001,14 +1104,14 @@
 	}];
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(19).config();
+	__webpack_require__(20).config();
 
-	var moltin = __webpack_require__(20)({
+	var moltin = __webpack_require__(21)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1023,6 +1126,22 @@
 	          console.log(cart);
 	        });
 	      });
+	    });
+	  }
+	}, {
+	  method: 'GET',
+	  path: '/api/cart',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Cart.Contents(function (items) {
+	          resolve(items);
+	        });
+	      });
+	      p.then(function (items) {
+	        return items;
+	      });
+	      reply(p);
 	    });
 	  }
 	}];

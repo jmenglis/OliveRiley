@@ -18,5 +18,23 @@ module.exports = [
         })
       })
     }
+  },
+  {
+    method: 'GET',
+    path: '/api/cart',
+    handler: (request, reply) => {
+      moltin.Authenticate(() => {
+        let p = new Promise((resolve,reject) => {
+          moltin.Cart.Contents((items) => {
+            resolve(items)
+          })
+        })
+        p.then((items) => {
+          return items
+        })
+        reply(p)
+      })
+    }
   }
+
 ]
