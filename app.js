@@ -973,12 +973,36 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'cenerize' },
+	          { className: 'centerize' },
 	          _react2.default.createElement(
 	            'h4',
 	            null,
 	            'Your Shopping Cart'
-	          )
+	          ),
+	          this.state.products.map(function (prod, i) {
+	            _react2.default.createElement(
+	              'ul',
+	              { key: i },
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                'Name: ',
+	                prod.name
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                'Price (Unit): ',
+	                prod.price
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                'Quantity: ',
+	                prod.quantity
+	              )
+	            );
+	          })
 	        )
 	      );
 	    }
@@ -1122,9 +1146,7 @@
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
 	      var p = new Promise(function (resolve, reject) {
-	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {
-	          console.log(cart);
-	        });
+	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {});
 	      });
 	    });
 	  }

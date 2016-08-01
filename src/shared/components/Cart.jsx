@@ -38,9 +38,16 @@ export default class Cart extends Component {
     console.log(this.state.products)
     return (
       <div>
-        <div className="cenerize">
+        <div className="centerize">
           <h4>Your Shopping Cart</h4>
         </div>
+        {this.state.products.map((prod, i) => {
+          return <ul key={i}>
+            <li>Name: {prod.name}</li>
+            <li>Price (Unit): {prod.price}</li>
+            <li>Quantity: {prod.quantity}</li>
+          </ul>
+        })}
       </div>
     )
   }

@@ -13,7 +13,6 @@ module.exports = [
       moltin.Authenticate(() => {
         let p = new Promise((resolve, reject) => {
           moltin.Cart.Insert(request.payload.productId, '1', null, (cart) => {
-            console.log(cart);
           })
         })
       })
