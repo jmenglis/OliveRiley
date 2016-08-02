@@ -49,3 +49,12 @@ nav ul a:hover {
   height: 33.3%;
 }
 
+#cart-list {
+  float: right;
+  li {
+    display: inline;
+    padding: 0 5px 0 5px;
+    float: left;
+  }
+}
+

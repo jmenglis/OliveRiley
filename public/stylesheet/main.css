@@ -6355,4 +6355,11 @@ nav ul a:hover {
   width: 33.3%;
   height: 33.3%; }
 
+#cart-list {
+  float: right; }
+  #cart-list li {
+    display: inline;
+    padding: 0 5px 0 5px;
+    float: left; }
+
 /*# sourceMappingURL=main.css.map */

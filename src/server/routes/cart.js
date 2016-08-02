@@ -34,6 +34,22 @@ module.exports = [
         reply(p)
       })
     }
+  },
+  {
+    method: 'POST',
+    path: '/api/cart/quantity',
+    handler: (request, reply) => {
+      moltin.Authenticate(() => {
+        let p = new Promise((resolve, reject) => {
+          moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, (item) => {
+            resolve(item)
+          })
+        })
+        p.then((item) => {
+          return item
+        })
+        reply(p)
+      })
+    }
   }
-
 ]

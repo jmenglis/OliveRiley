@@ -954,6 +954,7 @@
 	        for (var key in res.body.contents) {
 	          var itemObject = {
 	            id: res.body.contents[key].id,
+	            brand: res.body.contents[key].brand.value,
 	            name: res.body.contents[key].name,
 	            price: res.body.contents[key].price.toFixed(2),
 	            image: res.body.contents[key].images[0].url.http,
@@ -965,8 +966,24 @@
 	      });
 	    }
 	  }, {
+	    key: 'changeQuantity',
+	    value: function changeQuantity(id, i, e) {
+	      console.log(i);
+	      var quantityItem = this.state.products;
+	      quantityItem[i].quantity = e.target.value;
+	      console.log(e.target.value);
+	      _superagent2.default.post('/api/cart/quantity').send({
+	        id: id,
+	        quantity: e.target.value
+	      }).end(function (err, res) {
+	        console.log(res);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      console.log(this.state.products);
 	      return _react2.default.createElement(
 	        'div',
@@ -978,32 +995,36 @@
 	            'h4',
 	            null,
 	            'Your Shopping Cart'
-	          ),
-	          this.state.products.map(function (prod, i) {
+	          )
+	        ),
+	        this.state.products.map(function (prod, i) {
+	          return _react2.default.createElement(
+	            'ul',
+	            { id: 'cart-list', key: prod.id },
 	            _react2.default.createElement(
-	              'ul',
-	              { key: i },
+	              'li',
+	              null,
 	              _react2.default.createElement(
-	                'li',
+	                'strong',
 	                null,
-	                'Name: ',
-	                prod.name
+	                prod.brand
 	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                'Price (Unit): ',
-	                prod.price
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                'Quantity: ',
-	                prod.quantity
-	              )
-	            );
-	          })
-	        )
+	              ' - ',
+	              prod.name
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Price (Unit): ',
+	              prod.price
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement('input', { type: 'number', value: prod.quantity, onChange: _this3.changeQuantity.bind(_this3, prod.id, i) })
+	            )
+	          );
+	        })
 	      );
 	    }
 	  }]);
@@ -1162,6 +1183,22 @@
 	      });
 	      p.then(function (items) {
 	        return items;
+	      });
+	      reply(p);
+	    });
+	  }
+	}, {
+	  method: 'POST',
+	  path: '/api/cart/quantity',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, function (item) {
+	          resolve(item);
+	        });
+	      });
+	      p.then(function (item) {
+	        return item;
 	      });
 	      reply(p);
 	    });

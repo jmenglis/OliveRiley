@@ -24,6 +24,7 @@ export default class Cart extends Component {
         for (let key in res.body.contents) {
           let itemObject = {
             id: res.body.contents[key].id,
+            brand: res.body.contents[key].brand.value,
             name: res.body.contents[key].name,
             price: res.body.contents[key].price.toFixed(2),
             image: res.body.contents[key].images[0].url.http,
@@ -34,6 +35,21 @@ export default class Cart extends Component {
         }
       })
   }
+  changeQuantity(id, i, e) {
+    console.log(i)
+    const quantityItem = this.state.products
+    quantityItem[i].quantity = e.target.value
+    console.log(e.target.value)
+    request
+      .post('/api/cart/quantity')
+      .send({
+        id: id,
+        quantity: e.target.value
+      })
+      .end((err, res) => {
+        console.log(res)
+      })
+  }
   render() {
     console.log(this.state.products)
     return (
@@ -42,10 +58,10 @@ export default class Cart extends Component {
           <h4>Your Shopping Cart</h4>
         </div>
         {this.state.products.map((prod, i) => {
-          return <ul key={i}>
-            <li>Name: {prod.name}</li>
+          return <ul id="cart-list" key={prod.id}>
+            <li><strong>{prod.brand}</strong> - {prod.name}</li>
             <li>Price (Unit): {prod.price}</li>
-            <li>Quantity: {prod.quantity}</li>
+            <li><input type="number" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
           </ul>
         })}
       </div>
