@@ -624,6 +624,7 @@
 
 	    _this.state = {
 	      product: [],
+	      sizes: [],
 	      message: ''
 	    };
 	    return _this;
@@ -635,9 +636,17 @@
 	      var _this2 = this;
 
 	      var productSlug = this.props.params.id;
-	      console.log(productSlug);
 	      _superagent2.default.post('/api/product').send({ product: productSlug }).end(function (err, res) {
-	        _this2.setState({ product: res.body });
+	        var sizeArray = [];
+	        for (var key in res.body[0].modifiers) {
+	          for (var prop in res.body[0].modifiers[key].variations) {
+	            sizeArray.push(res.body[0].modifiers[key].variations[prop].title);
+	          }
+	        }
+	        _this2.setState({
+	          product: res.body,
+	          sizes: sizeArray
+	        });
 	      });
 	    }
 	  }, {
@@ -664,6 +673,7 @@
 	        fade: true,
 	        cssEase: "linear"
 	      };
+	      console.log(this.state);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -952,6 +962,7 @@
 
 	      _superagent2.default.get('/api/cart').end(function (err, res) {
 	        for (var key in res.body.contents) {
+	          console.log(res.body.contents);
 	          var itemObject = {
 	            id: res.body.contents[key].id,
 	            brand: res.body.contents[key].brand.value,
@@ -968,23 +979,22 @@
 	  }, {
 	    key: 'changeQuantity',
 	    value: function changeQuantity(id, i, e) {
-	      console.log(i);
+	      var _this3 = this;
+
 	      var quantityItem = this.state.products;
-	      quantityItem[i].quantity = e.target.value;
-	      console.log(e.target.value);
 	      _superagent2.default.post('/api/cart/quantity').send({
 	        id: id,
 	        quantity: e.target.value
 	      }).end(function (err, res) {
-	        console.log(res);
+	        quantityItem[i].quantity = res.body.quantity;
+	        _this3.setState({ products: quantityItem });
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this4 = this;
 
-	      console.log(this.state.products);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -1021,7 +1031,7 @@
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              _react2.default.createElement('input', { type: 'number', value: prod.quantity, onChange: _this3.changeQuantity.bind(_this3, prod.id, i) })
+	              _react2.default.createElement('input', { type: 'number', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
 	            )
 	          );
 	        })

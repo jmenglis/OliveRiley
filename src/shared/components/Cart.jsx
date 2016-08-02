@@ -22,6 +22,7 @@ export default class Cart extends Component {
       .get('/api/cart')
       .end((err, res) => {
         for (let key in res.body.contents) {
+          console.log(res.body.contents)
           let itemObject = {
             id: res.body.contents[key].id,
             brand: res.body.contents[key].brand.value,
@@ -36,10 +37,7 @@ export default class Cart extends Component {
       })
   }
   changeQuantity(id, i, e) {
-    console.log(i)
     const quantityItem = this.state.products
-    quantityItem[i].quantity = e.target.value
-    console.log(e.target.value)
     request
       .post('/api/cart/quantity')
       .send({
@@ -47,11 +45,11 @@ export default class Cart extends Component {
         quantity: e.target.value
       })
       .end((err, res) => {
-        console.log(res)
+        quantityItem[i].quantity = res.body.quantity
+        this.setState({products: quantityItem})
       })
   }
   render() {
-    console.log(this.state.products)
     return (
       <div>
         <div className="centerize">

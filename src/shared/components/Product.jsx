@@ -8,17 +8,26 @@ export default class Product extends Component {
     super(props)
     this.state = {
       product: [],
+      sizes: [],
       message: ''
     }
   }
   componentDidMount() {
     let productSlug = this.props.params.id
-    console.log(productSlug)
     request
       .post('/api/product')
       .send({product: productSlug})
       .end((err, res) => {
-        this.setState({ product: res.body })
+        let sizeArray = []
+        for (let key in res.body[0].modifiers) {
+          for (let prop in res.body[0].modifiers[key].variations) {
+            sizeArray.push(res.body[0].modifiers[key].variations[prop].title)
+          }
+        }
+        this.setState({
+          product: res.body,
+          sizes: sizeArray
+        })
       })
   }
   addCart(e) {
@@ -40,6 +49,7 @@ export default class Product extends Component {
       fade: true,
       cssEase: "linear",
     }
+    console.log(this.state)
     return (
       <div>
         {this.state.product.map((prod, i) => {

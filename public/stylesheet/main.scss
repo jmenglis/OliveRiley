@@ -53,8 +53,11 @@ nav ul a:hover {
   float: right;
   li {
     display: inline;
-    padding: 0 5px 0 5px;
+    padding: 0 50px 0 50px;
     float: left;
+  }
+  input {
+    height: 1.2rem;
   }
 }
 
