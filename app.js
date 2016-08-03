@@ -598,6 +598,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(11);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _reactSlick = __webpack_require__(15);
 
 	var _reactSlick2 = _interopRequireDefault(_reactSlick);
@@ -625,7 +629,8 @@
 	    _this.state = {
 	      product: [],
 	      sizes: [],
-	      message: ''
+	      message: '',
+	      selectedSize: ''
 	    };
 	    return _this;
 	  }
@@ -635,19 +640,40 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      var element = _reactDom2.default.findDOMNode(this.refs.dropdown);
 	      var productSlug = this.props.params.id;
 	      _superagent2.default.post('/api/product').send({ product: productSlug }).end(function (err, res) {
 	        var sizeArray = [];
 	        for (var key in res.body[0].modifiers) {
 	          for (var prop in res.body[0].modifiers[key].variations) {
-	            sizeArray.push(res.body[0].modifiers[key].variations[prop].title);
+	            sizeArray.push({
+	              modifier: res.body[0].modifiers[key].variations[prop].modifier,
+	              id: res.body[0].modifiers[key].variations[prop].id,
+	              size: res.body[0].modifiers[key].variations[prop].title
+	            });
 	          }
 	        }
 	        _this2.setState({
 	          product: res.body,
 	          sizes: sizeArray
 	        });
+	        $(element).ready(function () {
+	          $('select').material_select();
+	        });
 	      });
+	    }
+	  }, {
+	    key: 'handleSelect',
+	    value: function handleSelect(e) {
+	      var modifierId = this.state.sizes.find(function (d) {
+	        return d.id === e.target.value;
+	      }).modifier;
+	      var variationId = e.target.value;
+
+	      this.setState({ selectedSize: {
+	          modifierId: modifierId,
+	          variationId: variationId
+	        } });
 	    }
 	  }, {
 	    key: 'addCart',
@@ -655,8 +681,13 @@
 	      var _this3 = this;
 
 	      e.preventDefault();
+	      console.log(this.state.product[0].id);
 	      var productId = this.state.product[0].id;
-	      _superagent2.default.post('/api/cart/add').send({ productId: productId }).end(function (err, res) {
+	      _superagent2.default.post('/api/cart/add').send({
+	        productId: productId,
+	        modifierId: this.state.selectedSize.modifierId,
+	        variationId: this.state.selectedSize.variationId
+	      }).end(function (err, res) {
 	        _this3.setState({ message: "The product has been added to the cart." });
 	      });
 	    }
@@ -704,6 +735,22 @@
 	                'p',
 	                null,
 	                prod.description
+	              ),
+	              _react2.default.createElement(
+	                'select',
+	                { className: 'browser-default', ref: 'dropdown', onChange: _this4.handleSelect.bind(_this4), defaultValue: '' },
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '', disabled: true },
+	                  'Choose your option'
+	                ),
+	                _this4.state.sizes.map(function (size, i) {
+	                  return _react2.default.createElement(
+	                    'option',
+	                    { key: size.id, value: size.id },
+	                    size.size
+	                  );
+	                })
 	              ),
 	              _react2.default.createElement(
 	                'form',
@@ -1177,7 +1224,13 @@
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
 	      var p = new Promise(function (resolve, reject) {
-	        moltin.Cart.Insert(request.payload.productId, '1', null, function (cart) {});
+	        var options = null;
+	        if (request.payload.modifierId && request.payload.variationId) {
+	          options = "{'" + request.payload.modifierId + "':'" + request.payload.variationId + "'}";
+	          console.log(options);
+	        }
+	        console.log(options);
+	        moltin.Cart.Insert(request.payload.productId, '1', options, function (cart) {});
 	      });
 	    });
 	  }

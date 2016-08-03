@@ -8,5 +8,4 @@ render(
   document.getElementById('react-render')
 )
 
-
 $(".dropdown-button").dropdown()

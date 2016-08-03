@@ -1,9 +1,9 @@
 require('dotenv').config();
 
-const moltin = require('moltin')({
+var moltin = require('moltin')({
   publicId: process.env.MOLTIN_CLIENTID,
   secretKey: process.env.MOLTIN_CLIENTSECRET
-})
+});
 
 module.exports = [
   {
@@ -12,7 +12,13 @@ module.exports = [
     handler: (request, reply) => {
       moltin.Authenticate(() => {
         let p = new Promise((resolve, reject) => {
-          moltin.Cart.Insert(request.payload.productId, '1', null, (cart) => {
+          let options = null;
+          if (request.payload.modifierId && request.payload.variationId) {
+            options = "{'"+request.payload.modifierId + "':'" + request.payload.variationId+ "'}"
+            console.log(options)
+          }
+          console.log(options)
+          moltin.Cart.Insert(request.payload.productId, '1', options, (cart) => {
           })
         })
       })
