@@ -22,7 +22,6 @@ export default class Cart extends Component {
       .get('/api/cart')
       .end((err, res) => {
         for (let key in res.body.contents) {
-          console.log(res.body.contents)
           let itemObject = {
             id: res.body.contents[key].id,
             brand: res.body.contents[key].brand.value,

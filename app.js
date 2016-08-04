@@ -1009,7 +1009,6 @@
 
 	      _superagent2.default.get('/api/cart').end(function (err, res) {
 	        for (var key in res.body.contents) {
-	          console.log(res.body.contents);
 	          var itemObject = {
 	            id: res.body.contents[key].id,
 	            brand: res.body.contents[key].brand.value,
@@ -1226,10 +1225,11 @@
 	      var p = new Promise(function (resolve, reject) {
 	        var options = null;
 	        if (request.payload.modifierId && request.payload.variationId) {
-	          options = "{'" + request.payload.modifierId + "':'" + request.payload.variationId + "'}";
-	          console.log(options);
+	          var modifierId = request.payload.modifierId;
+	          var variationId = request.payload.variationId;
+	          options = {};
+	          options[modifierId] = variationId;
 	        }
-	        console.log(options);
 	        moltin.Cart.Insert(request.payload.productId, '1', options, function (cart) {});
 	      });
 	    });

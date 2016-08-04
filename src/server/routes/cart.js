@@ -14,10 +14,11 @@ module.exports = [
         let p = new Promise((resolve, reject) => {
           let options = null;
           if (request.payload.modifierId && request.payload.variationId) {
-            options = "{'"+request.payload.modifierId + "':'" + request.payload.variationId+ "'}"
-            console.log(options)
+            let modifierId = request.payload.modifierId
+            let variationId = request.payload.variationId
+            options = {}
+            options[modifierId] = variationId
           }
-          console.log(options)
           moltin.Cart.Insert(request.payload.productId, '1', options, (cart) => {
           })
         })
