@@ -155,7 +155,7 @@
 	});
 
 	var renderPage = function renderPage(appHtml) {
-	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <div id=react-render>' + appHtml + '</div>\n    <script src="/javascripts/jquery-3.0.0.js"></script>\n    <script src="/javascripts/materialize.js"></script>\n    <script src="http://localhost:8080/js/app.js"></script>\n   ';
+	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <div id=react-render><div>' + appHtml + '</div></div>\n    <script src="/javascripts/jquery-3.0.0.js"></script>\n    <script src="/javascripts/materialize.js"></script>\n    <script src="http://localhost:8080/js/app.js"></script>\n   ';
 	};
 
 	// starting server on port 3000
@@ -955,6 +955,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Total = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1009,6 +1010,7 @@
 
 	      _superagent2.default.get('/api/cart').end(function (err, res) {
 	        for (var key in res.body.contents) {
+	          console.log(res.body.contents);
 	          var itemObject = {
 	            id: res.body.contents[key].id,
 	            brand: res.body.contents[key].brand.value,
@@ -1016,7 +1018,8 @@
 	            price: res.body.contents[key].price.toFixed(2),
 	            image: res.body.contents[key].images[0].url.http,
 	            slug: res.body.contents[key].slug,
-	            quantity: res.body.contents[key].quantity
+	            quantity: res.body.contents[key].quantity,
+	            total: res.body.contents[key].totals.pre_discount.raw.without_tax.toFixed(2)
 	          };
 	          _this2.setState({ products: _this2.state.products.concat(itemObject) });
 	        }
@@ -1028,13 +1031,21 @@
 	      var _this3 = this;
 
 	      var quantityItem = this.state.products;
-	      _superagent2.default.post('/api/cart/quantity').send({
-	        id: id,
-	        quantity: e.target.value
-	      }).end(function (err, res) {
-	        quantityItem[i].quantity = res.body.quantity;
-	        _this3.setState({ products: quantityItem });
-	      });
+	      if (!e.target.value) {
+	        quantityItem[i].quantity = '';
+	        this.setState({ products: quantityItem });
+	      } else if (e.target.value === '0') {
+	        quantityItem[i].quantity = 0;
+	        this.setState({ products: quantityItem });
+	      } else {
+	        _superagent2.default.post('/api/cart/quantity').send({
+	          id: id,
+	          quantity: e.target.value
+	        }).end(function (err, res) {
+	          quantityItem[i].quantity = res.body.quantity;
+	          _this3.setState({ products: quantityItem });
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -1059,7 +1070,7 @@
 	            { id: 'cart-list', key: prod.id },
 	            _react2.default.createElement(
 	              'li',
-	              null,
+	              { style: { width: "500px" } },
 	              _react2.default.createElement(
 	                'strong',
 	                null,
@@ -1070,17 +1081,18 @@
 	            ),
 	            _react2.default.createElement(
 	              'li',
-	              null,
+	              { style: { width: "255px" } },
 	              'Price (Unit): ',
 	              prod.price
 	            ),
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              _react2.default.createElement('input', { type: 'number', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
+	              _react2.default.createElement('input', { type: 'number', min: '0', max: '100', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
 	            )
 	          );
-	        })
+	        }),
+	        _react2.default.createElement(Total, { data: this.state.products })
 	      );
 	    }
 	  }]);
@@ -1089,6 +1101,26 @@
 	}(_react.Component);
 
 	exports.default = Cart;
+
+	var Total = exports.Total = function (_Component2) {
+	  _inherits(Total, _Component2);
+
+	  function Total(props) {
+	    _classCallCheck(this, Total);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Total).call(this, props));
+	  }
+
+	  _createClass(Total, [{
+	    key: 'render',
+	    value: function render() {
+	      console.log(this.props.data);
+	      return _react2.default.createElement('div', null);
+	    }
+	  }]);
+
+	  return Total;
+	}(_react.Component);
 
 /***/ },
 /* 18 */

@@ -29,39 +29,80 @@ export default class Cart extends Component {
             price: res.body.contents[key].price.toFixed(2),
             image: res.body.contents[key].images[0].url.http,
             slug: res.body.contents[key].slug,
-            quantity: res.body.contents[key].quantity
+            quantity: res.body.contents[key].quantity,
+            total: res.body.contents[key].totals.pre_discount.raw.without_tax.toFixed(2)
           }
           this.setState({products: this.state.products.concat(itemObject)})
         }
       })
   }
   changeQuantity(id, i, e) {
-    const quantityItem = this.state.products
-    request
-      .post('/api/cart/quantity')
-      .send({
-        id: id,
-        quantity: e.target.value
-      })
-      .end((err, res) => {
-        quantityItem[i].quantity = res.body.quantity
-        this.setState({products: quantityItem})
-      })
+    const updateItem = this.state.products
+    if(!e.target.value) {
+      updateItem[i].quantity = ''
+      updateItem[i].total = 0
+      this.setState({products: updateItem})
+    } else if (e.target.value === '0') {
+      updateItem[i].quantity = 0
+      updateItem[i].total = 0
+      this.setState({products: updateItem})
+    } else {
+      request
+        .post('/api/cart/quantity')
+        .send({
+          id: id,
+          quantity: e.target.value
+        })
+        .end((err, res) => {
+          updateItem[i].quantity = res.body.quantity
+          updateItem[i].total = res.body.totals.pre_discount.raw.without_tax.toFixed(2)
+          this.setState({products: updateItem})
+        })
+    }
   }
   render() {
     return (
-      <div>
+      <div className="row">
         <div className="centerize">
           <h4>Your Shopping Cart</h4>
         </div>
         {this.state.products.map((prod, i) => {
           return <ul id="cart-list" key={prod.id}>
-            <li><strong>{prod.brand}</strong> - {prod.name}</li>
-            <li>Price (Unit): {prod.price}</li>
-            <li><input type="number" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
+            <li style={{width: "100px", height: "2px"}}></li>
+            <li style={{width: "300px"}}><strong>{prod.brand}</strong> - {prod.name}</li>
+            <li style={{width: "255px"}}>Price (Unit): ${prod.price}</li>
+            <li><input type="number" min="0" max="100" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
           </ul>
         })}
+        <Total data={this.state.products} />
       </div>
     )
+  }
+}
+
+
+export class Total extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      total: 0
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    let total = 0
+    for (let key in nextProps.data) {
+      let itemTotal = parseFloat(nextProps.data[key].total)
+      total = total + itemTotal
+    }
+    this.setState({total: total})
+  }
+  render() {
+    return <div className="row">
+      <div className="col s9" style={{height: "2px"}}>
+      </div>
+      <div className="col s3" style={{textAlign: "right"}}>
+        <strong>Subtotal - ${this.state.total}</strong>
+      </div>
+    </div>
   }
 }

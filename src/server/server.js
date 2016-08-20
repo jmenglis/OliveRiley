@@ -91,7 +91,7 @@ const renderPage = (appHtml) => {
     <title>Application - Home</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/main.css" />
-    <div id=react-render>${appHtml}</div>
+    <div id=react-render><div>${appHtml}</div></div>
     <script src="/javascripts/jquery-3.0.0.js"></script>
     <script src="/javascripts/materialize.js"></script>
     <script src="http://localhost:8080/js/app.js"></script>

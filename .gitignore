@@ -1,7 +1,5 @@
 node_modules/
-
 development.json
-
 .idea
-
 .env
+commit-msg.txt
