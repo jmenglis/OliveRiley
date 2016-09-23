@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import ReactDOM from 'react-dom'
+import { Link } from 'react-router'
 import Masonry from 'react-masonry-component'
 import request from 'superagent'
 
@@ -7,9 +7,9 @@ class IndividualProduct extends Component {
   render() {
     return (
       <ul className="product-image-element">
-        <li><a href={`/products/${this.props.data.slug}`}><img width="180" height="270" src={this.props.data.images[0].url.http}/></a></li>
-        <li><strong><a href={`/products/${this.props.data.slug}`}>{this.props.data.brand.value.toUpperCase()}</a></strong></li>
-        <li><a href={`/products/${this.props.data.slug}`}>{this.props.data.title}</a></li>
+        <li><Link to={`/products/${this.props.data.slug}`}><img width="180" height="270" src={this.props.data.images[0].url.http}/></Link></li>
+        <li><strong><Link to={`/products/${this.props.data.slug}`}>{this.props.data.brand.value.toUpperCase()}</Link></strong></li>
+        <li><Link to={`/products/${this.props.data.slug}`}>{this.props.data.title}</Link></li>
         <li>{this.props.data.price.data.formatted.without_tax}</li>
       </ul>
     )

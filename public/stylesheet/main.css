@@ -1,5 +1,6 @@
 @charset "UTF-8";
 /* CSS declarations go here */
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700';
 /* Slider */
 /* line 45, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/vendor/slick-theme.scss */
 .slick-loading .slick-list {
@@ -7782,54 +7783,54 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   .picker--time .picker__box {
     margin-bottom: 5em; } }
 
-/* line 10, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 11, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .header-text {
   text-align: center;
   margin-bottom: 0; }
 
-/* line 15, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 16, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .header-sub {
   text-align: center;
   font-style: italic;
   margin-top: 0; }
 
-/* line 21, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 22, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 nav {
   background: black;
   height: 30px;
   line-height: 30px; }
 
-/* line 27, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 28, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 nav ul a:hover {
   background-color: white;
   color: black; }
 
-/* line 32, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 33, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .centerize {
   text-align: center; }
 
-/* line 37, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 38, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .righterize {
   text-align: right; }
 
-/* line 41, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 42, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .product-grid {
   margin: 0 auto; }
 
-/* line 46, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 47, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .product-image-element {
   float: left;
   width: 33.3%;
   height: 33.3%; }
 
-/* line 52, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 53, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 #cart-list {
   float: right; }
-  /* line 54, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+  /* line 55, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
   #cart-list li {
     display: inline;
     padding: 0 15px 0 25px;
     float: left; }
-  /* line 59, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+  /* line 60, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
   #cart-list input {
     height: 1.2rem; }

@@ -4,6 +4,7 @@
   "description": "Redux/React version of OliveRiley",
   "main": "app.js",
   "scripts": {
+    "lint": "node_modules/.bin/eslint ./",
     "build:server": "webpack --config webpack.server.config.js",
     "build:webpackserver": "webpack --config webpack.webpackserver.config.js",
     "dev-server": "node webpack.js",

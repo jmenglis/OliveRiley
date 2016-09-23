@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import request from 'superagent'
+import { Link } from 'react-router'
 import Masonry from 'react-masonry-component'
 
 export default class Cart extends Component {
@@ -68,24 +69,37 @@ export default class Cart extends Component {
             <h4>Your Shopping Cart</h4>
           </div>
         </div>
+        {(() => {
+          if(this.state.products.length > 0) {
+            return (
+              <div className="row">
+                {this.state.products.map((prod, i) => {
+                  return <ul id="cart-list" key={prod.id}>
+                    <li style={{width: "200px"}}><img src={prod.image} style={{width: "100%"}}></img></li>
+                    <li style={{width: "200px"}}><strong>{prod.brand}</strong> - {prod.name}</li>
+                    <li style={{width: "200px"}}>Price (Unit): ${prod.price}</li>
+                    <li><input type="number" min="0" max="100" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
+                  </ul>
+                })}
+              </div>
+            );
+          } else {
+            return (
+              <div className="row centerize">
+                There are no products in your cart.
+              </div>
+            );
+          }
+        })()}
         <div className="row">
-          {this.state.products.map((prod, i) => {
-            return <ul id="cart-list" key={prod.id}>
-              <li style={{width: "200px"}}><img src={prod.image} style={{width: "100%"}}></img></li>
-              <li style={{width: "200px"}}><strong>{prod.brand}</strong> - {prod.name}</li>
-              <li style={{width: "200px"}}>Price (Unit): ${prod.price}</li>
-              <li><input type="number" min="0" max="100" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
-            </ul>
-          })}
-        </div>
-        <div className="row">
+          <hr/>
           <Total data={this.state.products} />
         </div>
+        <Buttons />
       </div>
     )
   }
 }
-
 
 export class Total extends Component {
   constructor(props) {
@@ -106,9 +120,23 @@ export class Total extends Component {
     return <div className="row">
       <div className="col s9" style={{height: "2px"}}>
       </div>
-      <div className="col s3" style={{textAlign: "right"}}>
-        <strong>Subtotal - ${this.state.total}</strong>
+      <div className="col s3" style={{textAlign: "right", fontWeight: "700"}}>
+        <br />
+        <hr />
+        Subtotal - ${this.state.total}
       </div>
     </div>
+  }
+}
+
+export class Buttons extends Component {
+  render() {
+    return (
+      <div className="row">
+        <div className="col s3">Keep Shopping</div>
+        <div className="col s6" style={{height: "2px"}}></div>
+        <div className="col s3" style={{textAlign: "right"}}><Link to="/checkout/">Checkout</Link></div>
+      </div>
+    );
   }
 }

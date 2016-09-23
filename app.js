@@ -44,37 +44,29 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
-	(function webpackMissingModule() { throw new Error("Cannot find module \"/src/server/server.js\""); }());
-
-
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
-	var _hapi = __webpack_require__(2);
+	var _hapi = __webpack_require__(1);
 
 	var _hapi2 = _interopRequireDefault(_hapi);
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _path = __webpack_require__(4);
+	var _path = __webpack_require__(3);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _inert = __webpack_require__(5);
+	var _inert = __webpack_require__(4);
 
 	var _inert2 = _interopRequireDefault(_inert);
 
-	var _server = __webpack_require__(6);
+	var _server = __webpack_require__(5);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(6);
 
-	var _routes = __webpack_require__(8);
+	var _routes = __webpack_require__(7);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
@@ -194,72 +186,76 @@
 	});
 
 /***/ },
-/* 2 */
+/* 1 */
 /***/ function(module, exports) {
 
 	module.exports = require("hapi");
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports) {
 
 	module.exports = require("react");
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = require("inert");
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dom/server");
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-router");
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(6);
 
-	var _App = __webpack_require__(9);
+	var _App = __webpack_require__(8);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Home = __webpack_require__(11);
+	var _Home = __webpack_require__(10);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Product = __webpack_require__(15);
+	var _Product = __webpack_require__(13);
 
 	var _Product2 = _interopRequireDefault(_Product);
 
-	var _Category = __webpack_require__(17);
+	var _Category = __webpack_require__(16);
 
 	var _Category2 = _interopRequireDefault(_Category);
 
-	var _Cart = __webpack_require__(18);
+	var _Cart = __webpack_require__(17);
 
 	var _Cart2 = _interopRequireDefault(_Cart);
+
+	var _Checkout = __webpack_require__(18);
+
+	var _Checkout2 = _interopRequireDefault(_Checkout);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -269,11 +265,12 @@
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/category/:id', component: _Category2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/products/:id', component: _Product2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/cart/', component: _Cart2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/cart/', component: _Cart2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/checkout/', component: _Checkout2.default })
 	);
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -282,13 +279,13 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(6);
 
-	var _NavLink = __webpack_require__(10);
+	var _NavLink = __webpack_require__(9);
 
 	var _NavLink2 = _interopRequireDefault(_NavLink);
 
@@ -417,7 +414,7 @@
 	});
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -428,11 +425,11 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(6);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -444,7 +441,7 @@
 	});
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -455,19 +452,17 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(12);
+	var _reactRouter = __webpack_require__(6);
 
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactMasonryComponent = __webpack_require__(13);
+	var _reactMasonryComponent = __webpack_require__(11);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 
-	var _superagent = __webpack_require__(14);
+	var _superagent = __webpack_require__(12);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -498,8 +493,8 @@
 	          'li',
 	          null,
 	          _react2.default.createElement(
-	            'a',
-	            { href: '/products/' + this.props.data.slug },
+	            _reactRouter.Link,
+	            { to: '/products/' + this.props.data.slug },
 	            _react2.default.createElement('img', { width: '180', height: '270', src: this.props.data.images[0].url.http })
 	          )
 	        ),
@@ -510,8 +505,8 @@
 	            'strong',
 	            null,
 	            _react2.default.createElement(
-	              'a',
-	              { href: '/products/' + this.props.data.slug },
+	              _reactRouter.Link,
+	              { to: '/products/' + this.props.data.slug },
 	              this.props.data.brand.value.toUpperCase()
 	            )
 	          )
@@ -520,8 +515,8 @@
 	          'li',
 	          null,
 	          _react2.default.createElement(
-	            'a',
-	            { href: '/products/' + this.props.data.slug },
+	            _reactRouter.Link,
+	            { to: '/products/' + this.props.data.slug },
 	            this.props.data.title
 	          )
 	        ),
@@ -592,25 +587,19 @@
 	exports.default = Home;
 
 /***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	module.exports = require("react-dom");
-
-/***/ },
-/* 13 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-masonry-component");
 
 /***/ },
-/* 14 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("superagent");
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -621,19 +610,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(12);
+	var _reactDom = __webpack_require__(14);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactSlick = __webpack_require__(16);
+	var _reactSlick = __webpack_require__(15);
 
 	var _reactSlick2 = _interopRequireDefault(_reactSlick);
 
-	var _superagent = __webpack_require__(14);
+	var _superagent = __webpack_require__(12);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -813,13 +802,19 @@
 	exports.default = Product;
 
 /***/ },
-/* 16 */
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = require("react-dom");
+
+/***/ },
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-slick");
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -830,15 +825,17 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _superagent = __webpack_require__(14);
+	var _superagent = __webpack_require__(12);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _reactMasonryComponent = __webpack_require__(13);
+	var _reactRouter = __webpack_require__(6);
+
+	var _reactMasonryComponent = __webpack_require__(11);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 
@@ -869,8 +866,8 @@
 	          'li',
 	          null,
 	          _react2.default.createElement(
-	            'a',
-	            { href: '/products/' + this.props.data.slug },
+	            _reactRouter.Link,
+	            { to: '/products/' + this.props.data.slug },
 	            _react2.default.createElement('img', { width: '180', height: '270', src: this.props.data.images[0].url.http })
 	          )
 	        ),
@@ -881,8 +878,8 @@
 	            'strong',
 	            null,
 	            _react2.default.createElement(
-	              'a',
-	              { href: '/products/' + this.props.data.slug },
+	              _reactRouter.Link,
+	              { to: '/products/' + this.props.data.slug },
 	              this.props.data.brand.value.toUpperCase()
 	            )
 	          )
@@ -891,8 +888,8 @@
 	          'li',
 	          null,
 	          _react2.default.createElement(
-	            'a',
-	            { href: '/products/' + this.props.data.slug },
+	            _reactRouter.Link,
+	            { to: '/products/' + this.props.data.slug },
 	            this.props.data.title
 	          )
 	        ),
@@ -974,7 +971,7 @@
 	exports.default = Category;
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -982,19 +979,21 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Total = undefined;
+	exports.Buttons = exports.Total = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _superagent = __webpack_require__(14);
+	var _superagent = __webpack_require__(12);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _reactMasonryComponent = __webpack_require__(13);
+	var _reactRouter = __webpack_require__(6);
+
+	var _reactMasonryComponent = __webpack_require__(11);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 
@@ -1097,48 +1096,60 @@
 	            )
 	          )
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          this.state.products.map(function (prod, i) {
+	        function () {
+	          if (_this4.state.products.length > 0) {
 	            return _react2.default.createElement(
-	              'ul',
-	              { id: 'cart-list', key: prod.id },
-	              _react2.default.createElement(
-	                'li',
-	                { style: { width: "200px" } },
-	                _react2.default.createElement('img', { src: prod.image, style: { width: "100%" } })
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                { style: { width: "200px" } },
-	                _react2.default.createElement(
-	                  'strong',
-	                  null,
-	                  prod.brand
-	                ),
-	                ' - ',
-	                prod.name
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                { style: { width: "200px" } },
-	                'Price (Unit): $',
-	                prod.price
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement('input', { type: 'number', min: '0', max: '100', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
-	              )
+	              'div',
+	              { className: 'row' },
+	              _this4.state.products.map(function (prod, i) {
+	                return _react2.default.createElement(
+	                  'ul',
+	                  { id: 'cart-list', key: prod.id },
+	                  _react2.default.createElement(
+	                    'li',
+	                    { style: { width: "200px" } },
+	                    _react2.default.createElement('img', { src: prod.image, style: { width: "100%" } })
+	                  ),
+	                  _react2.default.createElement(
+	                    'li',
+	                    { style: { width: "200px" } },
+	                    _react2.default.createElement(
+	                      'strong',
+	                      null,
+	                      prod.brand
+	                    ),
+	                    ' - ',
+	                    prod.name
+	                  ),
+	                  _react2.default.createElement(
+	                    'li',
+	                    { style: { width: "200px" } },
+	                    'Price (Unit): $',
+	                    prod.price
+	                  ),
+	                  _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    _react2.default.createElement('input', { type: 'number', min: '0', max: '100', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
+	                  )
+	                );
+	              })
 	            );
-	          })
-	        ),
+	          } else {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'row centerize' },
+	              'There are no products in your cart.'
+	            );
+	          }
+	        }(),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },
+	          _react2.default.createElement('hr', null),
 	          _react2.default.createElement(Total, { data: this.state.products })
-	        )
+	        ),
+	        _react2.default.createElement(Buttons, null)
 	      );
 	    }
 	  }]);
@@ -1181,13 +1192,11 @@
 	        _react2.default.createElement('div', { className: 'col s9', style: { height: "2px" } }),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col s3', style: { textAlign: "right" } },
-	          _react2.default.createElement(
-	            'strong',
-	            null,
-	            'Subtotal - $',
-	            this.state.total
-	          )
+	          { className: 'col s3', style: { textAlign: "right", fontWeight: "700" } },
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('hr', null),
+	          'Subtotal - $',
+	          this.state.total
 	        )
 	      );
 	    }
@@ -1195,6 +1204,102 @@
 
 	  return Total;
 	}(_react.Component);
+
+	var Buttons = exports.Buttons = function (_Component3) {
+	  _inherits(Buttons, _Component3);
+
+	  function Buttons() {
+	    _classCallCheck(this, Buttons);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Buttons).apply(this, arguments));
+	  }
+
+	  _createClass(Buttons, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col s3' },
+	          'Keep Shopping'
+	        ),
+	        _react2.default.createElement('div', { className: 'col s6', style: { height: "2px" } }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col s3', style: { textAlign: "right" } },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/checkout/' },
+	            'Checkout'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Buttons;
+	}(_react.Component);
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(6);
+
+	var _superagent = __webpack_require__(12);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Checkout = function (_Component) {
+	  _inherits(Checkout, _Component);
+
+	  function Checkout() {
+	    _classCallCheck(this, Checkout);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Checkout).apply(this, arguments));
+	  }
+
+	  _createClass(Checkout, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Here is where the checkout process goes'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Checkout;
+	}(_react.Component);
+
+	exports.default = Checkout;
 
 /***/ },
 /* 19 */
@@ -1326,18 +1431,16 @@
 	module.exports = [{
 	  method: 'POST',
 	  path: '/api/cart/add',
-	  handler: function handler(request, reply) {
+	  handler: function handler(request) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        var options = null;
-	        if (request.payload.modifierId && request.payload.variationId) {
-	          var modifierId = request.payload.modifierId;
-	          var variationId = request.payload.variationId;
-	          options = {};
-	          options[modifierId] = variationId;
-	        }
-	        moltin.Cart.Insert(request.payload.productId, '1', options, function (cart) {});
-	      });
+	      var options = null;
+	      if (request.payload.modifierId && request.payload.variationId) {
+	        var modifierId = request.payload.modifierId;
+	        var variationId = request.payload.variationId;
+	        options = {};
+	        options[modifierId] = variationId;
+	      }
+	      moltin.Cart.Insert(request.payload.productId, '1', options, function () {});
 	    });
 	  }
 	}, {
@@ -1345,7 +1448,7 @@
 	  path: '/api/cart',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
+	      var p = new Promise(function (resolve) {
 	        moltin.Cart.Contents(function (items) {
 	          resolve(items);
 	        });
@@ -1361,13 +1464,12 @@
 	  path: '/api/cart/quantity',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
+	      var p = new Promise(function (resolve) {
 	        moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, function (item) {
 	          resolve(item);
 	        });
 	      });
 	      p.then(function (item) {
-	        console.log(item);
 	        return item;
 	      });
 	      reply(p);

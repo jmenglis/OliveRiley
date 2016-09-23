@@ -5,6 +5,7 @@ import Home from './components/Home.jsx'
 import Product from './components/Product.jsx'
 import Category from './components/Category.jsx'
 import Cart from './components/Cart.jsx'
+import Checkout from './components/Checkout.jsx'
 
 module.exports = (
   <Route path="/" component={App}>
@@ -12,5 +13,6 @@ module.exports = (
     <Route path="/category/:id" component={Category}/>
     <Route path="/products/:id" component={Product}/>
     <Route path="/cart/" component={Cart}/>
+    <Route path="/checkout/" component={Checkout}/>
   </Route>
 )
