@@ -3,4 +3,8 @@ development.json
 .idea
 .env
 commit-msg.txt
+app.js
+webpack.js
+public/
 
+webpack*

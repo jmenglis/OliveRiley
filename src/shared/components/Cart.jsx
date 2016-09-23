@@ -62,19 +62,25 @@ export default class Cart extends Component {
   }
   render() {
     return (
-      <div className="row">
-        <div className="centerize">
-          <h4>Your Shopping Cart</h4>
+      <div>
+        <div className="row">
+          <div className="centerize">
+            <h4>Your Shopping Cart</h4>
+          </div>
         </div>
-        {this.state.products.map((prod, i) => {
-          return <ul id="cart-list" key={prod.id}>
-            <li style={{width: "100px", height: "2px"}}></li>
-            <li style={{width: "300px"}}><strong>{prod.brand}</strong> - {prod.name}</li>
-            <li style={{width: "255px"}}>Price (Unit): ${prod.price}</li>
-            <li><input type="number" min="0" max="100" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
-          </ul>
-        })}
-        <Total data={this.state.products} />
+        <div className="row">
+          {this.state.products.map((prod, i) => {
+            return <ul id="cart-list" key={prod.id}>
+              <li style={{width: "200px"}}><img src={prod.image} style={{width: "100%"}}></img></li>
+              <li style={{width: "200px"}}><strong>{prod.brand}</strong> - {prod.name}</li>
+              <li style={{width: "200px"}}>Price (Unit): ${prod.price}</li>
+              <li><input type="number" min="0" max="100" value={prod.quantity} onChange={this.changeQuantity.bind(this, prod.id, i)} /></li>
+            </ul>
+          })}
+        </div>
+        <div className="row">
+          <Total data={this.state.products} />
+        </div>
       </div>
     )
   }

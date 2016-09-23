@@ -1,9 +1,9 @@
 /* CSS declarations go here */
 // If you want to override materialize sass variables you can uncomment the following:
-@import 'slick-theme';
-@import 'slick';
+@import 'vendor/slick-theme';
+@import 'vendor/slick';
 // import main scss file
-@import "materialize";
+@import "vendor/materialize";
 
 $primary-color: color("white", "lighten-2");
 
@@ -50,9 +50,10 @@ nav ul a:hover {
 }
 
 #cart-list {
+  float: right;
   li {
     display: inline;
-    padding: 0 50px 0 50px;
+    padding: 0 15px 0 25px;
     float: left;
   }
   input {

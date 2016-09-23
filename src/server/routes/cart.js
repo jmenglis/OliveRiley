@@ -53,6 +53,7 @@ module.exports = [
           })
         })
         p.then((item) => {
+          console.log(item)
           return item
         })
         reply(p)

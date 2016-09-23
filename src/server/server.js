@@ -7,6 +7,8 @@ import { renderToString } from 'react-dom/server'
 import { match, RouterContext } from 'react-router'
 import routes from '../shared/routes.jsx'
 import appRoutes from './routes/main.js'
+import HapiSass from 'hapi-sass'
+
 
 const server = new Hapi.Server({
   connections: {
@@ -20,16 +22,31 @@ const server = new Hapi.Server({
 
 server.connection({ port:3000 })
 
-server.register(Inert, () => {})
+const options = {
+  src: './src/stylesheet',
+  dest: './public/stylesheet',
+  force: true,
+  debug: true,
+  routePath: '/{file}.css',
+  includePaths: ['./vendor'],
+  outputStyle: 'nested',
+  sourceComments: true,
+  srcExtension: 'scss',
+}
+
+server.register([Inert, {
+  register: HapiSass,
+  options: options
+}], () => {})
 
 // stylesheet route
-server.route({
-  method: 'GET',
-  path: '/main.css',
-  handler: (request, reply) => {
-    reply.file('./stylesheet/main.css')
-  }
-})
+// server.route({
+//   method: 'GET',
+//   path: '/main.css',
+//   handler: (request, reply) => {
+//     reply.file('./stylesheet/main.css')
+//   }
+// })
 
 // fonts route
 server.route({
@@ -94,7 +111,7 @@ const renderPage = (appHtml) => {
     <div id=react-render><div>${appHtml}</div></div>
     <script src="/javascripts/jquery-3.0.0.js"></script>
     <script src="/javascripts/materialize.js"></script>
-    <script src="http://localhost:8080/js/app.js"></script>
+    <script src="http://localhost:8080/js/application.js"></script>
    `
 }
 

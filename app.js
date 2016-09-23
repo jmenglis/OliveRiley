@@ -44,39 +44,51 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(1);
+	(function webpackMissingModule() { throw new Error("Cannot find module \"/src/server/server.js\""); }());
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	var _hapi = __webpack_require__(1);
+	var _hapi = __webpack_require__(2);
 
 	var _hapi2 = _interopRequireDefault(_hapi);
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _path = __webpack_require__(3);
+	var _path = __webpack_require__(4);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _inert = __webpack_require__(4);
+	var _inert = __webpack_require__(5);
 
 	var _inert2 = _interopRequireDefault(_inert);
 
-	var _server = __webpack_require__(5);
+	var _server = __webpack_require__(6);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
-	var _routes = __webpack_require__(7);
+	var _routes = __webpack_require__(8);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _main = __webpack_require__(18);
+	var _main = __webpack_require__(19);
 
 	var _main2 = _interopRequireDefault(_main);
 
+	var _hapiSass = __webpack_require__(25);
+
+	var _hapiSass2 = _interopRequireDefault(_hapiSass);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(20).config();
+	__webpack_require__(21).config();
 
 
 	var server = new _hapi2.default.Server({
@@ -91,16 +103,31 @@
 
 	server.connection({ port: 3000 });
 
-	server.register(_inert2.default, function () {});
+	var options = {
+	  src: './src/stylesheet',
+	  dest: './public/stylesheet',
+	  force: true,
+	  debug: true,
+	  routePath: '/{file}.css',
+	  includePaths: ['./vendor'],
+	  outputStyle: 'nested',
+	  sourceComments: true,
+	  srcExtension: 'scss'
+	};
+
+	server.register([_inert2.default, {
+	  register: _hapiSass2.default,
+	  options: options
+	}], function () {});
 
 	// stylesheet route
-	server.route({
-	  method: 'GET',
-	  path: '/main.css',
-	  handler: function handler(request, reply) {
-	    reply.file('./stylesheet/main.css');
-	  }
-	});
+	// server.route({
+	//   method: 'GET',
+	//   path: '/main.css',
+	//   handler: (request, reply) => {
+	//     reply.file('./stylesheet/main.css')
+	//   }
+	// })
 
 	// fonts route
 	server.route({
@@ -155,7 +182,7 @@
 	});
 
 	var renderPage = function renderPage(appHtml) {
-	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <div id=react-render><div>' + appHtml + '</div></div>\n    <script src="/javascripts/jquery-3.0.0.js"></script>\n    <script src="/javascripts/materialize.js"></script>\n    <script src="http://localhost:8080/js/app.js"></script>\n   ';
+	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <div id=react-render><div>' + appHtml + '</div></div>\n    <script src="/javascripts/jquery-3.0.0.js"></script>\n    <script src="/javascripts/materialize.js"></script>\n    <script src="http://localhost:8080/js/application.js"></script>\n   ';
 	};
 
 	// starting server on port 3000
@@ -167,70 +194,70 @@
 	});
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
 	module.exports = require("hapi");
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = require("react");
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = require("inert");
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dom/server");
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-router");
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
-	var _App = __webpack_require__(8);
+	var _App = __webpack_require__(9);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Home = __webpack_require__(10);
+	var _Home = __webpack_require__(11);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Product = __webpack_require__(14);
+	var _Product = __webpack_require__(15);
 
 	var _Product2 = _interopRequireDefault(_Product);
 
-	var _Category = __webpack_require__(16);
+	var _Category = __webpack_require__(17);
 
 	var _Category2 = _interopRequireDefault(_Category);
 
-	var _Cart = __webpack_require__(17);
+	var _Cart = __webpack_require__(18);
 
 	var _Cart2 = _interopRequireDefault(_Cart);
 
@@ -246,7 +273,7 @@
 	);
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -255,13 +282,13 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
-	var _NavLink = __webpack_require__(9);
+	var _NavLink = __webpack_require__(10);
 
 	var _NavLink2 = _interopRequireDefault(_NavLink);
 
@@ -390,7 +417,7 @@
 	});
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -401,11 +428,11 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(6);
+	var _reactRouter = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -417,7 +444,7 @@
 	});
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -428,19 +455,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(11);
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactMasonryComponent = __webpack_require__(12);
+	var _reactMasonryComponent = __webpack_require__(13);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 
-	var _superagent = __webpack_require__(13);
+	var _superagent = __webpack_require__(14);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -565,25 +592,25 @@
 	exports.default = Home;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dom");
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-masonry-component");
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("superagent");
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -594,19 +621,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(11);
+	var _reactDom = __webpack_require__(12);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactSlick = __webpack_require__(15);
+	var _reactSlick = __webpack_require__(16);
 
 	var _reactSlick2 = _interopRequireDefault(_reactSlick);
 
-	var _superagent = __webpack_require__(13);
+	var _superagent = __webpack_require__(14);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -786,13 +813,13 @@
 	exports.default = Product;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-slick");
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -803,15 +830,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _superagent = __webpack_require__(13);
+	var _superagent = __webpack_require__(14);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _reactMasonryComponent = __webpack_require__(12);
+	var _reactMasonryComponent = __webpack_require__(13);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 
@@ -947,7 +974,7 @@
 	exports.default = Category;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -959,15 +986,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _superagent = __webpack_require__(13);
+	var _superagent = __webpack_require__(14);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _reactMasonryComponent = __webpack_require__(12);
+	var _reactMasonryComponent = __webpack_require__(13);
 
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 
@@ -1010,7 +1037,6 @@
 
 	      _superagent2.default.get('/api/cart').end(function (err, res) {
 	        for (var key in res.body.contents) {
-	          console.log(res.body.contents);
 	          var itemObject = {
 	            id: res.body.contents[key].id,
 	            brand: res.body.contents[key].brand.value,
@@ -1030,20 +1056,23 @@
 	    value: function changeQuantity(id, i, e) {
 	      var _this3 = this;
 
-	      var quantityItem = this.state.products;
+	      var updateItem = this.state.products;
 	      if (!e.target.value) {
-	        quantityItem[i].quantity = '';
-	        this.setState({ products: quantityItem });
+	        updateItem[i].quantity = '';
+	        updateItem[i].total = 0;
+	        this.setState({ products: updateItem });
 	      } else if (e.target.value === '0') {
-	        quantityItem[i].quantity = 0;
-	        this.setState({ products: quantityItem });
+	        updateItem[i].quantity = 0;
+	        updateItem[i].total = 0;
+	        this.setState({ products: updateItem });
 	      } else {
 	        _superagent2.default.post('/api/cart/quantity').send({
 	          id: id,
 	          quantity: e.target.value
 	        }).end(function (err, res) {
-	          quantityItem[i].quantity = res.body.quantity;
-	          _this3.setState({ products: quantityItem });
+	          updateItem[i].quantity = res.body.quantity;
+	          updateItem[i].total = res.body.totals.pre_discount.raw.without_tax.toFixed(2);
+	          _this3.setState({ products: updateItem });
 	        });
 	      }
 	    }
@@ -1057,42 +1086,59 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'centerize' },
+	          { className: 'row' },
 	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Your Shopping Cart'
+	            'div',
+	            { className: 'centerize' },
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'Your Shopping Cart'
+	            )
 	          )
 	        ),
-	        this.state.products.map(function (prod, i) {
-	          return _react2.default.createElement(
-	            'ul',
-	            { id: 'cart-list', key: prod.id },
-	            _react2.default.createElement(
-	              'li',
-	              { style: { width: "500px" } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          this.state.products.map(function (prod, i) {
+	            return _react2.default.createElement(
+	              'ul',
+	              { id: 'cart-list', key: prod.id },
 	              _react2.default.createElement(
-	                'strong',
-	                null,
-	                prod.brand
+	                'li',
+	                { style: { width: "200px" } },
+	                _react2.default.createElement('img', { src: prod.image, style: { width: "100%" } })
 	              ),
-	              ' - ',
-	              prod.name
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { style: { width: "255px" } },
-	              'Price (Unit): ',
-	              prod.price
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement('input', { type: 'number', min: '0', max: '100', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
-	            )
-	          );
-	        }),
-	        _react2.default.createElement(Total, { data: this.state.products })
+	              _react2.default.createElement(
+	                'li',
+	                { style: { width: "200px" } },
+	                _react2.default.createElement(
+	                  'strong',
+	                  null,
+	                  prod.brand
+	                ),
+	                ' - ',
+	                prod.name
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { style: { width: "200px" } },
+	                'Price (Unit): $',
+	                prod.price
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement('input', { type: 'number', min: '0', max: '100', value: prod.quantity, onChange: _this4.changeQuantity.bind(_this4, prod.id, i) })
+	              )
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(Total, { data: this.state.products })
+	        )
 	      );
 	    }
 	  }]);
@@ -1108,14 +1154,42 @@
 	  function Total(props) {
 	    _classCallCheck(this, Total);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Total).call(this, props));
+	    var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(Total).call(this, props));
+
+	    _this5.state = {
+	      total: 0
+	    };
+	    return _this5;
 	  }
 
 	  _createClass(Total, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var total = 0;
+	      for (var key in nextProps.data) {
+	        var itemTotal = parseFloat(nextProps.data[key].total);
+	        total = total + itemTotal;
+	      }
+	      this.setState({ total: total });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.props.data);
-	      return _react2.default.createElement('div', null);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement('div', { className: 'col s9', style: { height: "2px" } }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col s3', style: { textAlign: "right" } },
+	          _react2.default.createElement(
+	            'strong',
+	            null,
+	            'Subtotal - $',
+	            this.state.total
+	          )
+	        )
+	      );
 	    }
 	  }]);
 
@@ -1123,20 +1197,20 @@
 	}(_react.Component);
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _product = __webpack_require__(19);
+	var _product = __webpack_require__(20);
 
 	var _product2 = _interopRequireDefault(_product);
 
-	var _category = __webpack_require__(22);
+	var _category = __webpack_require__(23);
 
 	var _category2 = _interopRequireDefault(_category);
 
-	var _cart = __webpack_require__(23);
+	var _cart = __webpack_require__(24);
 
 	var _cart2 = _interopRequireDefault(_cart);
 
@@ -1145,14 +1219,14 @@
 	module.exports = [].concat(_product2.default, _category2.default, _cart2.default);
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(20).config();
+	__webpack_require__(21).config();
 
-	var moltin = __webpack_require__(21)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1192,26 +1266,26 @@
 	}];
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = require("dotenv");
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = require("moltin");
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(20).config();
+	__webpack_require__(21).config();
 
-	var moltin = __webpack_require__(21)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1237,14 +1311,14 @@
 	}];
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(20).config();
+	__webpack_require__(21).config();
 
-	var moltin = __webpack_require__(21)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1293,12 +1367,19 @@
 	        });
 	      });
 	      p.then(function (item) {
+	        console.log(item);
 	        return item;
 	      });
 	      reply(p);
 	    });
 	  }
 	}];
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = require("hapi-sass");
 
 /***/ }
 /******/ ]);
