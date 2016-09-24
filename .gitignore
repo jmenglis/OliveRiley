@@ -3,4 +3,4 @@ development.json
 .idea
 .env
 commit-msg.txt
-
+.nvmrc
