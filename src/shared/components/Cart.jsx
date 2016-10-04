@@ -1,22 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import request from 'superagent'
 import { Link } from 'react-router'
-import Masonry from 'react-masonry-component'
 
 export default class Cart extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       products: [],
-    }
-    this.pluckByName = this.pluckByName.bind(this)
-  }
-  pluckByName(inArr, id, exists) {
-    for (let i = 0; i < inArr.length; i++) {
-      if (inArr[i].id == id) {
-        return (exists === true) ? true : inArr[i]
-      }
-    }
+    };
   }
   componentDidMount() {
     request
@@ -32,7 +23,7 @@ export default class Cart extends Component {
             slug: res.body.contents[key].slug,
             quantity: res.body.contents[key].quantity,
             total: res.body.contents[key].totals.pre_discount.raw.without_tax.toFixed(2)
-          }
+          };
           this.setState({products: this.state.products.concat(itemObject)})
         }
       })

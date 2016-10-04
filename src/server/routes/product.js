@@ -3,7 +3,7 @@ require('dotenv').config();
 const moltin = require('moltin')({
   publicId: process.env.MOLTIN_CLIENTID,
   secretKey: process.env.MOLTIN_CLIENTSECRET
-})
+});
 
 module.exports = [
   {
@@ -15,10 +15,10 @@ module.exports = [
           moltin.Product.Search({}, (products) => {
             resolve(products)
           })
-        })
+        });
         p.then((res) => {
           return res
-        })
+        });
         reply(p)
       })
     }
@@ -32,12 +32,12 @@ module.exports = [
           moltin.Product.Search({slug: request.payload.product}, (product) => {
             resolve(product)
           })
-        })
+        });
         p.then((res) => {
           return res
-        })
+        });
         reply(p)
       })
     }
   }
-]
+];

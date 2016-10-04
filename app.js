@@ -74,7 +74,7 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _hapiSass = __webpack_require__(25);
+	var _hapiSass = __webpack_require__(26);
 
 	var _hapiSass2 = _interopRequireDefault(_hapiSass);
 
@@ -993,10 +993,6 @@
 
 	var _reactRouter = __webpack_require__(6);
 
-	var _reactMasonryComponent = __webpack_require__(11);
-
-	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1016,20 +1012,10 @@
 	    _this.state = {
 	      products: []
 	    };
-	    _this.pluckByName = _this.pluckByName.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Cart, [{
-	    key: 'pluckByName',
-	    value: function pluckByName(inArr, id, exists) {
-	      for (var i = 0; i < inArr.length; i++) {
-	        if (inArr[i].id == id) {
-	          return exists === true ? true : inArr[i];
-	        }
-	      }
-	    }
-	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -1275,23 +1261,46 @@
 	var Checkout = function (_Component) {
 	  _inherits(Checkout, _Component);
 
-	  function Checkout() {
+	  function Checkout(props) {
 	    _classCallCheck(this, Checkout);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Checkout).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Checkout).call(this, props));
+
+	    _this.state = {
+	      products: [],
+	      loggedIn: true
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Checkout, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      _superagent2.default.get('/api/checkout').end(function (err, res) {
+	        for (var key in res.body.contents) {
+	          var itemObject = {
+	            id: res.body.contents[key].id,
+	            brand: res.body.contents[key].brand.value,
+	            name: res.body.contents[key].name,
+	            price: res.body.contents[key].price.toFixed(2),
+	            image: res.body.contents[key].images[0].url.http,
+	            slug: res.body.contents[key].slug,
+	            quantity: res.body.contents[key].quantity,
+	            total: res.body.contents[key].totals.pre_discount.raw.without_tax.toFixed(2)
+	          };
+	          _this2.setState({ products: _this2.state.products.concat(itemObject) });
+	        }
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Here is where the checkout process goes'
-	        )
+	        this.loggedIn ? _react2.default.createElement('loggedIn', { data: this.state.products }) : _react2.default.createElement('loggedOut', null)
 	      );
 	    }
 	  }]);
@@ -1300,6 +1309,40 @@
 	}(_react.Component);
 
 	exports.default = Checkout;
+	;
+
+	var loggedIn = function (_Component2) {
+	  _inherits(loggedIn, _Component2);
+
+	  function loggedIn(props) {
+	    _classCallCheck(this, loggedIn);
+
+	    var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(loggedIn).call(this, props));
+
+	    _this3.state = {};
+	    return _this3;
+	  }
+
+	  _createClass(loggedIn, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Logged In'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return loggedIn;
+	}(_react.Component);
+
+	exports.default = loggedIn;
+	;
 
 /***/ },
 /* 19 */
@@ -1319,9 +1362,13 @@
 
 	var _cart2 = _interopRequireDefault(_cart);
 
+	var _checkout = __webpack_require__(25);
+
+	var _checkout2 = _interopRequireDefault(_checkout);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports = [].concat(_product2.default, _category2.default, _cart2.default);
+	module.exports = [].concat(_product2.default, _category2.default, _cart2.default, _checkout2.default);
 
 /***/ },
 /* 20 */
@@ -1479,6 +1526,37 @@
 
 /***/ },
 /* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(21).config();
+
+	var moltin = __webpack_require__(22)({
+	  publicId: process.env.MOLTIN_CLIENTID,
+	  secretKey: process.env.MOLTIN_CLIENTSECRET
+	});
+
+	module.exports = [{
+	  method: 'GET',
+	  path: '/api/checkout',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve) {
+	        moltin.Cart.Contents(function (items) {
+	          resolve(items);
+	        });
+	      });
+	      p.then(function (items) {
+	        return items;
+	      });
+	      reply(p);
+	    });
+	  }
+	}];
+
+/***/ },
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = require("hapi-sass");
