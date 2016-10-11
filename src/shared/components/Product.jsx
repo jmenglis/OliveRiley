@@ -16,6 +16,7 @@ export default class Product extends Component {
   }
   componentDidMount() {
     let element = ReactDOM.findDOMNode(this.refs.dropdown)
+
     let productSlug = this.props.params.id
     request
       .post('/api/product')
@@ -34,17 +35,18 @@ export default class Product extends Component {
         this.setState({
           product: res.body,
           sizes: sizeArray
-        });
+        })
         $(element).ready(() => {
-          $('select').material_select()
+          $('select').material_select();
+          $('select').on('change', this.handleSelect.bind(this));
         })
       })
   }
   handleSelect(e) {
     let modifierId = this.state.sizes.find((d) => {
       return d.id === e.target.value
-    }).modifier
-    let variationId = e.target.value
+    }).modifier;
+    let variationId = e.target.value;
 
     this.setState({selectedSize: {
       modifierId: modifierId,
@@ -53,8 +55,8 @@ export default class Product extends Component {
   }
   addCart(e) {
     e.preventDefault()
-    console.log(this.state.product[0].id)
     let productId = this.state.product[0].id
+
     request
       .post('/api/cart/add')
       .send({
@@ -88,7 +90,7 @@ export default class Product extends Component {
                   <strong>{prod.price.data.formatted.without_tax}</strong>
                 </p>
                 <p>{prod.description}</p>
-                <select ref="dropdown" onChange={this.handleSelect.bind(this)} defaultValue="">
+                <select ref="dropdown" defaultValue="">
                   <option value="" disabled>Choose your option</option>
                   {this.state.sizes.map((size, i) => {
                       return <option key={size.id} value={size.id}>{size.size}</option>
