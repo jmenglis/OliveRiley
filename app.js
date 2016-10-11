@@ -1278,6 +1278,7 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      console.log(this.state.loggedIn);
 	      _superagent2.default.get('/api/checkout').end(function (err, res) {
 	        for (var key in res.body.contents) {
 	          var itemObject = {
@@ -1300,7 +1301,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.loggedIn ? _react2.default.createElement('loggedIn', { data: this.state.products }) : _react2.default.createElement('loggedOut', null)
+	        this.state.loggedIn ? _react2.default.createElement('loggedIn', { data: this.state.products }) : _react2.default.createElement('loggedOut', null)
 	      );
 	    }
 	  }]);
@@ -1342,6 +1343,39 @@
 	}(_react.Component);
 
 	exports.default = loggedIn;
+	;
+
+	var loggedOut = function (_Component3) {
+	  _inherits(loggedOut, _Component3);
+
+	  function loggedOut(props) {
+	    _classCallCheck(this, loggedOut);
+
+	    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(loggedOut).call(this, props));
+
+	    _this4.state = {};
+	    return _this4;
+	  }
+
+	  _createClass(loggedOut, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Logged Out'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return loggedOut;
+	}(_react.Component);
+
+	exports.default = loggedOut;
 	;
 
 /***/ },

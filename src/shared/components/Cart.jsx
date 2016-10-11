@@ -94,15 +94,15 @@ export default class Cart extends Component {
 
 export class Total extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       total: 0
     }
   }
   componentWillReceiveProps(nextProps) {
-    let total = 0
+    let total = 0;
     for (let key in nextProps.data) {
-      let itemTotal = parseFloat(nextProps.data[key].total)
+      let itemTotal = parseFloat(nextProps.data[key].total);
       total = total + itemTotal
     }
     this.setState({total: total})

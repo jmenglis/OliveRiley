@@ -34,7 +34,7 @@ export default class Product extends Component {
         this.setState({
           product: res.body,
           sizes: sizeArray
-        })
+        });
         $(element).ready(() => {
           $('select').material_select()
         })
@@ -88,7 +88,7 @@ export default class Product extends Component {
                   <strong>{prod.price.data.formatted.without_tax}</strong>
                 </p>
                 <p>{prod.description}</p>
-                <select className="browser-default" ref="dropdown" onChange={this.handleSelect.bind(this)} defaultValue="">
+                <select ref="dropdown" onChange={this.handleSelect.bind(this)} defaultValue="">
                   <option value="" disabled>Choose your option</option>
                   {this.state.sizes.map((size, i) => {
                       return <option key={size.id} value={size.id}>{size.size}</option>
