@@ -78,6 +78,10 @@
 
 	var _hapiSass2 = _interopRequireDefault(_hapiSass);
 
+	var _yar = __webpack_require__(28);
+
+	var _yar2 = _interopRequireDefault(_yar);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	__webpack_require__(22).config();
@@ -106,10 +110,20 @@
 	  sourceComments: true,
 	  srcExtension: 'scss'
 	};
+	var options2 = {
+	  storeBlank: false,
+	  cookieOptions: {
+	    password: process.env.COOKIE_PASSWORD,
+	    isSecure: process.env.NODE_ENV !== 'development'
+	  }
+	};
 
 	server.register([_inert2.default, {
 	  register: _hapiSass2.default,
 	  options: options
+	}, {
+	  register: _yar2.default,
+	  options: options2
 	}], function () {});
 
 	// stylesheet route
@@ -1385,7 +1399,7 @@
 	      if (email === email_confirm) {
 	        _superagent2.default.get('/api/customers').query({ email: email }).set('Accept', 'application/json').end(function (err, res) {
 	          if (res.body.length > 0) {
-	            _reactRouter.browserHistory.push('/login');
+	            _reactRouter.browserHistory.push('/login/?location=checkout&email=' + email);
 	          } else if (password.length > 6 && password == password_confirm) {
 	            _submitRequest();
 	          } else if (password.length < 6) {
@@ -1700,16 +1714,82 @@
 	  function Login(props) {
 	    _classCallCheck(this, Login);
 
-	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+
+	    _this.state = {
+	      location: _this.props.location.query.location || null,
+	      email: _this.props.location.query.email || null
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Login, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _reactDom2.default.findDOMNode(this.refs.email).value = this.state.email || null;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'Please login now'
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'col s12', onSubmit: this.handleSubmit },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s12' },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons prefix' },
+	                'email'
+	              ),
+	              _react2.default.createElement('input', { ref: 'email', id: 'email', type: 'email', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'email' },
+	                'Email'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s12' },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons prefix' },
+	                'lock'
+	              ),
+	              _react2.default.createElement('input', { ref: 'password', id: 'password', type: 'password', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'password' },
+	                'Password'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row', style: { textAlign: 'center' } },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn waves-effect waves-light', type: 'submit', name: 'action' },
+	              'Submit',
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons right' },
+	                'send'
+	              )
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -1985,6 +2065,12 @@
 /***/ function(module, exports) {
 
 	module.exports = require("hapi-sass");
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	module.exports = require("yar");
 
 /***/ }
 /******/ ]);

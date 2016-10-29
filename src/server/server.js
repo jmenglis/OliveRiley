@@ -8,6 +8,7 @@ import { match, RouterContext } from 'react-router'
 import routes from '../shared/routes.jsx'
 import appRoutes from './routes/main.js'
 import HapiSass from 'hapi-sass'
+import Yar from 'yar'
 
 
 const server = new Hapi.Server({
@@ -33,11 +34,21 @@ const options = {
   sourceComments: true,
   srcExtension: 'scss',
 }
+const options2 = {
+  storeBlank: false,
+  cookieOptions: {
+    password: process.env.COOKIE_PASSWORD,
+    isSecure: process.env.NODE_ENV !== 'development'
+  },
+}
 
 server.register([Inert, {
   register: HapiSass,
-  options: options
-}], () => {})
+  options: options,
+}, {
+  register: Yar,
+  options: options2,
+} ], () => {});
 
 // stylesheet route
 // server.route({
