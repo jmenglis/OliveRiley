@@ -7,18 +7,5 @@ const moltin = require('moltin')({
 
 module.exports = [
   {
-    method: 'GET',
-    path: '/api/checkout',
-    handler: (request, reply) => {
-      moltin.Authenticate(() => {
-        const p = new Promise((resolve) => {
-          moltin.Cart.Contents((items) => {
-            resolve(items);
-          });
-        });
-        p.then(items => items);
-        reply(p);
-      });
-    },
   },
 ]

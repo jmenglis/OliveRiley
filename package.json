@@ -24,7 +24,7 @@
   "homepage": "https://github.com/jmenglis/OliveRiley#readme",
   "dependencies": {
     "dotenv": "^2.0.0",
-    "hapi": "^13.5.2",
+    "hapi": "^15.2.0",
     "inert": "^4.0.1",
     "moltin": "^1.0.4",
     "nodemon": "^1.10.0",

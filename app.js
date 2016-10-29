@@ -70,17 +70,17 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _main = __webpack_require__(19);
+	var _main = __webpack_require__(20);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _hapiSass = __webpack_require__(26);
+	var _hapiSass = __webpack_require__(27);
 
 	var _hapiSass2 = _interopRequireDefault(_hapiSass);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(21).config();
+	__webpack_require__(22).config();
 
 
 	var server = new _hapi2.default.Server({
@@ -257,6 +257,10 @@
 
 	var _Checkout2 = _interopRequireDefault(_Checkout);
 
+	var _Login = __webpack_require__(19);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	module.exports = _react2.default.createElement(
@@ -266,7 +270,8 @@
 	  _react2.default.createElement(_reactRouter.Route, { path: '/category/:id', component: _Category2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/products/:id', component: _Product2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/cart/', component: _Cart2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/checkout/', component: _Checkout2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/checkout/', component: _Checkout2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/login/', component: _Login2.default })
 	);
 
 /***/ },
@@ -480,7 +485,7 @@
 	  function IndividualProduct() {
 	    _classCallCheck(this, IndividualProduct);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(IndividualProduct).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (IndividualProduct.__proto__ || Object.getPrototypeOf(IndividualProduct)).apply(this, arguments));
 	  }
 
 	  _createClass(IndividualProduct, [{
@@ -538,7 +543,7 @@
 	  function Home(props) {
 	    _classCallCheck(this, Home);
 
-	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this, props));
+	    var _this2 = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 
 	    _this2.state = {
 	      products: []
@@ -640,7 +645,7 @@
 	  function Product(props) {
 	    _classCallCheck(this, Product);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Product).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Product.__proto__ || Object.getPrototypeOf(Product)).call(this, props));
 
 	    _this.state = {
 	      product: [],
@@ -657,6 +662,7 @@
 	      var _this2 = this;
 
 	      var element = _reactDom2.default.findDOMNode(this.refs.dropdown);
+
 	      var productSlug = this.props.params.id;
 	      _superagent2.default.post('/api/product').send({ product: productSlug }).end(function (err, res) {
 	        var sizeArray = [];
@@ -675,6 +681,7 @@
 	        });
 	        $(element).ready(function () {
 	          $('select').material_select();
+	          $('select').on('change', _this2.handleSelect.bind(_this2));
 	        });
 	      });
 	    }
@@ -697,8 +704,8 @@
 	      var _this3 = this;
 
 	      e.preventDefault();
-	      console.log(this.state.product[0].id);
 	      var productId = this.state.product[0].id;
+
 	      _superagent2.default.post('/api/cart/add').send({
 	        productId: productId,
 	        modifierId: this.state.selectedSize.modifierId,
@@ -754,7 +761,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'select',
-	                { className: 'browser-default', ref: 'dropdown', onChange: _this4.handleSelect.bind(_this4), defaultValue: '' },
+	                { ref: 'dropdown', defaultValue: '' },
 	                _react2.default.createElement(
 	                  'option',
 	                  { value: '', disabled: true },
@@ -853,7 +860,7 @@
 	  function IndividualProduct() {
 	    _classCallCheck(this, IndividualProduct);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(IndividualProduct).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (IndividualProduct.__proto__ || Object.getPrototypeOf(IndividualProduct)).apply(this, arguments));
 	  }
 
 	  _createClass(IndividualProduct, [{
@@ -911,7 +918,7 @@
 	  function Category(props) {
 	    _classCallCheck(this, Category);
 
-	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Category).call(this, props));
+	    var _this2 = _possibleConstructorReturn(this, (Category.__proto__ || Object.getPrototypeOf(Category)).call(this, props));
 
 	    _this2.state = {
 	      products: []
@@ -1007,7 +1014,7 @@
 	  function Cart(props) {
 	    _classCallCheck(this, Cart);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Cart).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this, props));
 
 	    _this.state = {
 	      products: []
@@ -1151,7 +1158,7 @@
 	  function Total(props) {
 	    _classCallCheck(this, Total);
 
-	    var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(Total).call(this, props));
+	    var _this5 = _possibleConstructorReturn(this, (Total.__proto__ || Object.getPrototypeOf(Total)).call(this, props));
 
 	    _this5.state = {
 	      total: 0
@@ -1197,7 +1204,7 @@
 	  function Buttons() {
 	    _classCallCheck(this, Buttons);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Buttons).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Buttons.__proto__ || Object.getPrototypeOf(Buttons)).apply(this, arguments));
 	  }
 
 	  _createClass(Buttons, [{
@@ -1237,12 +1244,17 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.LoggedOut = exports.LoggedIn = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(14);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 
 	var _reactRouter = __webpack_require__(6);
 
@@ -1264,11 +1276,11 @@
 	  function Checkout(props) {
 	    _classCallCheck(this, Checkout);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Checkout).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Checkout.__proto__ || Object.getPrototypeOf(Checkout)).call(this, props));
 
 	    _this.state = {
 	      products: [],
-	      loggedIn: true
+	      loggedIn: null
 	    };
 	    return _this;
 	  }
@@ -1278,8 +1290,8 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      console.log(this.state.loggedIn);
-	      _superagent2.default.get('/api/checkout').end(function (err, res) {
+	      var element = _reactDom2.default.findDOMNode(this.refs.dropdown);
+	      _superagent2.default.get('/api/cart').end(function (err, res) {
 	        for (var key in res.body.contents) {
 	          var itemObject = {
 	            id: res.body.contents[key].id,
@@ -1294,6 +1306,9 @@
 	          _this2.setState({ products: _this2.state.products.concat(itemObject) });
 	        }
 	      });
+	      $(element).ready(function () {
+	        $('select').material_select();
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -1301,7 +1316,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.state.loggedIn ? _react2.default.createElement('loggedIn', { data: this.state.products }) : _react2.default.createElement('loggedOut', null)
+	        this.state.loggedIn ? _react2.default.createElement(LoggedIn, { data: this.state.products }) : _react2.default.createElement(LoggedOut, null)
 	      );
 	    }
 	  }]);
@@ -1312,19 +1327,16 @@
 	exports.default = Checkout;
 	;
 
-	var loggedIn = function (_Component2) {
-	  _inherits(loggedIn, _Component2);
+	var LoggedIn = exports.LoggedIn = function (_Component2) {
+	  _inherits(LoggedIn, _Component2);
 
-	  function loggedIn(props) {
-	    _classCallCheck(this, loggedIn);
+	  function LoggedIn(props) {
+	    _classCallCheck(this, LoggedIn);
 
-	    var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(loggedIn).call(this, props));
-
-	    _this3.state = {};
-	    return _this3;
+	    return _possibleConstructorReturn(this, (LoggedIn.__proto__ || Object.getPrototypeOf(LoggedIn)).call(this, props));
 	  }
 
-	  _createClass(loggedIn, [{
+	  _createClass(LoggedIn, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -1339,44 +1351,314 @@
 	    }
 	  }]);
 
-	  return loggedIn;
+	  return LoggedIn;
 	}(_react.Component);
 
-	exports.default = loggedIn;
-	;
+	var LoggedOut = exports.LoggedOut = function (_Component3) {
+	  _inherits(LoggedOut, _Component3);
 
-	var loggedOut = function (_Component3) {
-	  _inherits(loggedOut, _Component3);
+	  function LoggedOut(props) {
+	    _classCallCheck(this, LoggedOut);
 
-	  function loggedOut(props) {
-	    _classCallCheck(this, loggedOut);
+	    var _this4 = _possibleConstructorReturn(this, (LoggedOut.__proto__ || Object.getPrototypeOf(LoggedOut)).call(this, props));
 
-	    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(loggedOut).call(this, props));
-
-	    _this4.state = {};
+	    _this4.state = {
+	      customer: {},
+	      error_message: ''
+	    };
+	    _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
 	    return _this4;
 	  }
 
-	  _createClass(loggedOut, [{
+	  _createClass(LoggedOut, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(event) {
+	      var _this5 = this;
+
+	      event.preventDefault();
+	      this.state.error_message = '';
+	      var email = _reactDom2.default.findDOMNode(this.refs.email).value.trim().toLowerCase();
+	      var email_confirm = _reactDom2.default.findDOMNode(this.refs.email_confirm).value.trim().toLowerCase();
+	      var password = _reactDom2.default.findDOMNode(this.refs.password).value.trim();
+	      var password_confirm = _reactDom2.default.findDOMNode(this.refs.password_confirm).value.trim();
+
+	      if (email === email_confirm) {
+	        _superagent2.default.get('/api/customers').query({ email: email }).set('Accept', 'application/json').end(function (err, res) {
+	          if (res.body.length > 0) {
+	            _reactRouter.browserHistory.push('/login');
+	          } else if (password.length > 6 && password == password_confirm) {
+	            _submitRequest();
+	          } else if (password.length < 6) {
+	            _this5.setState({
+	              error_message: "Your password must be contain at least 6 characters."
+	            });
+	          } else {
+	            _this5.setState({
+	              error_message: "Your passwords do not match."
+	            });
+	          }
+	        });
+	      } else {
+	        this.setState({
+	          error_message: "The emails entered do not match.  Please confirm."
+	        });
+	      }
+
+	      var _submitRequest = function _submitRequest() {
+	        _this5.setState({
+	          customer: {
+	            first_name: _reactDom2.default.findDOMNode(_this5.refs.first_name).value.trim(),
+	            last_name: _reactDom2.default.findDOMNode(_this5.refs.last_name).value.trim(),
+	            phone_number: _reactDom2.default.findDOMNode(_this5.refs.phone_number).value.trim(),
+	            address1: _reactDom2.default.findDOMNode(_this5.refs.address1).value.trim(),
+	            city: _reactDom2.default.findDOMNode(_this5.refs.city).value.trim(),
+	            state: _reactDom2.default.findDOMNode(_this5.refs.dropdown).value.trim(),
+	            zipcode: _reactDom2.default.findDOMNode(_this5.refs.zipcode).value.trim(),
+	            email: email,
+	            password: password
+	          }
+	        });
+	        if (!_this5.state.customer.phone_number) {
+	          _this5.setState({
+	            error_message: 'Please enter a phone number.'
+	          });
+	        } else if (!_this5.state.customer.address1) {
+	          _this5.setState({
+	            error_message: 'Please enter an address.'
+	          });
+	        } else if (!_this5.state.customer.city) {
+	          _this5.setState({
+	            error_message: 'Please enter a city.'
+	          });
+	        } else if (_this5.state.customer.state.length === 0) {
+	          _this5.setState({
+	            error_message: 'Please enter a state.'
+	          });
+	        } else if (!_this5.state.customer.zipcode) {
+	          _this5.setState({
+	            error_message: 'Please enter a zip code.'
+	          });
+	        } else {
+	          _superagent2.default.post('/api/customers').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {
+	            if (res.body) {
+	              var customer = _this5.state.customer;
+	              customer.password = null;
+	              _this5.setState({
+	                customer: customer
+	              });
+	              _sendCustomerDetails(res.body.id);
+	            } else {
+	              _this5.setState({
+	                error_message: 'There was some type of issue.  Please try again'
+	              });
+	            }
+	          });
+	        }
+	      };
+
+	      var _sendCustomerDetails = function _sendCustomerDetails(customerid) {
+	        _superagent2.default.post('/api/customers/' + customerid + '/address').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {});
+	      };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Logged Out'
+	          'div',
+	          { className: 'row' },
+	          this.state.error_message
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'col s12', onSubmit: this.handleSubmit },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s4' },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons prefix' },
+	                'account_circle'
+	              ),
+	              _react2.default.createElement('input', { ref: 'first_name', id: 'first_name', type: 'text', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'first_name' },
+	                'First Name'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s4' },
+	              _react2.default.createElement('input', { ref: 'last_name', id: 'last_name', type: 'text', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'last_name' },
+	                'Last Name'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s4' },
+	              _react2.default.createElement('input', { ref: 'phone_number', id: 'phone_number', type: 'text', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'phone_number' },
+	                'Phone Number'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s6' },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons prefix' },
+	                'home'
+	              ),
+	              _react2.default.createElement('input', { ref: 'address1', id: 'address1', type: 'text', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'address1' },
+	                'Street Address'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s2' },
+	              _react2.default.createElement('input', { ref: 'city', id: 'city', type: 'text', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'city' },
+	                'City'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s2' },
+	              _react2.default.createElement(
+	                'select',
+	                { ref: 'dropdown', defaultValue: '' },
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '', disabled: true },
+	                  'State'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'AL' },
+	                  'AL'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'AK' },
+	                  'AK'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'AZ' },
+	                  'AZ'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s2' },
+	              _react2.default.createElement('input', { ref: 'zipcode', id: 'zipcode', type: 'text', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'zipcode' },
+	                'Zip'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s6' },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons prefix' },
+	                'email'
+	              ),
+	              _react2.default.createElement('input', { ref: 'email', id: 'email', type: 'email', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'email' },
+	                'Email'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s6' },
+	              _react2.default.createElement('input', { ref: 'email_confirm', id: 'email_confirm', type: 'email', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'email_confirm' },
+	                'Confirm Email'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s6' },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons prefix' },
+	                'lock'
+	              ),
+	              _react2.default.createElement('input', { ref: 'password', id: 'password', type: 'password', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'password' },
+	                'Password'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-field col s6' },
+	              _react2.default.createElement('input', { ref: 'password_confirm', id: 'password_confirm', type: 'password', className: 'validate' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'password_confirm' },
+	                'Confirm Password'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row', style: { textAlign: 'center' } },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn waves-effect waves-light', type: 'submit', name: 'action' },
+	              'Submit',
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons right' },
+	                'send'
+	              )
+	            )
+	          )
 	        )
 	      );
 	    }
 	  }]);
 
-	  return loggedOut;
+	  return LoggedOut;
 	}(_react.Component);
-
-	exports.default = loggedOut;
-	;
 
 /***/ },
 /* 19 */
@@ -1384,25 +1666,59 @@
 
 	'use strict';
 
-	var _product = __webpack_require__(20);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var _product2 = _interopRequireDefault(_product);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _category = __webpack_require__(23);
+	var _react = __webpack_require__(2);
 
-	var _category2 = _interopRequireDefault(_category);
+	var _react2 = _interopRequireDefault(_react);
 
-	var _cart = __webpack_require__(24);
+	var _reactDom = __webpack_require__(14);
 
-	var _cart2 = _interopRequireDefault(_cart);
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _checkout = __webpack_require__(25);
+	var _reactRouter = __webpack_require__(6);
 
-	var _checkout2 = _interopRequireDefault(_checkout);
+	var _superagent = __webpack_require__(12);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports = [].concat(_product2.default, _category2.default, _cart2.default, _checkout2.default);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Login = function (_Component) {
+	  _inherits(Login, _Component);
+
+	  function Login(props) {
+	    _classCallCheck(this, Login);
+
+	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+	  }
+
+	  _createClass(Login, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'Please login now'
+	      );
+	    }
+	  }]);
+
+	  return Login;
+	}(_react.Component);
+
+	exports.default = Login;
+	;
 
 /***/ },
 /* 20 */
@@ -1410,9 +1726,36 @@
 
 	'use strict';
 
-	__webpack_require__(21).config();
+	var _product = __webpack_require__(21);
 
-	var moltin = __webpack_require__(22)({
+	var _product2 = _interopRequireDefault(_product);
+
+	var _category = __webpack_require__(24);
+
+	var _category2 = _interopRequireDefault(_category);
+
+	var _cart = __webpack_require__(25);
+
+	var _cart2 = _interopRequireDefault(_cart);
+
+	var _customer = __webpack_require__(26);
+
+	var _customer2 = _interopRequireDefault(_customer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports = [].concat(_product2.default, _category2.default, _cart2.default, _customer2.default);
+	// import checkout from './checkout.js'
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(22).config();
+
+	var moltin = __webpack_require__(23)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1452,26 +1795,26 @@
 	}];
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = require("dotenv");
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = require("moltin");
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(21).config();
+	__webpack_require__(22).config();
 
-	var moltin = __webpack_require__(22)({
+	var moltin = __webpack_require__(23)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1497,14 +1840,14 @@
 	}];
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(21).config();
+	__webpack_require__(22).config();
 
-	var moltin = __webpack_require__(22)({
+	var moltin = __webpack_require__(23)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1559,30 +1902,78 @@
 	}];
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(21).config();
+	__webpack_require__(22).config();
 
-	var moltin = __webpack_require__(22)({
+	var moltin = __webpack_require__(23)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
 
 	module.exports = [{
-	  method: 'GET',
-	  path: '/api/checkout',
+	  method: 'POST',
+	  path: '/api/customers',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve) {
-	        moltin.Cart.Contents(function (items) {
-	          resolve(items);
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Customer.Create({
+	          first_name: request.payload.first_name,
+	          last_name: request.payload.last_name,
+	          email: request.payload.email,
+	          password: request.payload.password
+	        }, function (customer) {
+	          resolve(customer);
 	        });
 	      });
-	      p.then(function (items) {
-	        return items;
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    });
+	  }
+	}, {
+	  method: 'GET',
+	  path: '/api/customers',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Customer.Find({
+	          email: request.query.email
+	        }, function (customer) {
+	          resolve(customer);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
+	      });
+	      reply(p);
+	    });
+	  }
+	}, {
+	  method: 'POST',
+	  path: '/api/customers/{customerid}/address',
+	  handler: function handler(request, reply) {
+	    console.log(request.payload);
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Address.Create(request.params.customerid, {
+	          first_name: request.payload.first_name,
+	          last_name: request.payload.last_name,
+	          address_1: request.payload.address1,
+	          city: request.payload.city,
+	          county: request.payload.state,
+	          postcode: request.payload.zipcode,
+	          country: 'US'
+	        }, function (customer) {
+	          resolve(customer);
+	        });
+	      });
+	      p.then(function (res) {
+	        return res;
 	      });
 	      reply(p);
 	    });
@@ -1590,7 +1981,7 @@
 	}];
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = require("hapi-sass");

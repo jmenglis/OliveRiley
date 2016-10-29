@@ -13,8 +13,8 @@ module.exports = [
       moltin.Authenticate(() => {
         let options = null;
         if (request.payload.modifierId && request.payload.variationId) {
-          const modifierId = request.payload.modifierId;
-          const variationId = request.payload.variationId;
+          let modifierId = request.payload.modifierId;
+          let variationId = request.payload.variationId;
           options = {};
           options[modifierId] = variationId;
         }
@@ -27,7 +27,7 @@ module.exports = [
     path: '/api/cart',
     handler: (request, reply) => {
       moltin.Authenticate(() => {
-        const p = new Promise((resolve) => {
+        let p = new Promise((resolve) => {
           moltin.Cart.Contents((items) => {
             resolve(items);
           });
@@ -42,7 +42,7 @@ module.exports = [
     path: '/api/cart/quantity',
     handler: (request, reply) => {
       moltin.Authenticate(() => {
-        const p = new Promise((resolve) => {
+        let p = new Promise((resolve) => {
           moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, (item) => {
             resolve(item);
           });
