@@ -179,7 +179,7 @@ export class LoggedOut extends Component {
         .send(this.state.customer)
         .set('Accept', 'application/json')
         .end((err, res) => {
-
+          // Add the move forward route for the next route.
         })
     }
   }
