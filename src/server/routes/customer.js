@@ -7,6 +7,25 @@ const moltin = require('moltin')({
 
 module.exports = [
   {
+    method: 'GET',
+    path: '/api/customers',
+    handler: (request, reply) => {
+      moltin.Authenticate(() => {
+        let p = new Promise((resolve, reject) => {
+          moltin.Customer.Find({
+            email: request.query.email,
+          }, (customer) => {
+            resolve(customer);
+          })
+        });
+        p.then((res) => {
+          console.log(res);
+          reply({email: res[0].email});
+        });
+      })
+    }
+  },
+  {
     method: 'POST',
     path: '/api/customers',
     handler: (request, reply) => {
@@ -17,25 +36,6 @@ module.exports = [
             last_name: request.payload.last_name,
             email: request.payload.email,
             password: request.payload.password,
-          }, (customer) => {
-            resolve(customer);
-          })
-        });
-        p.then((res) => {
-          return res;
-        });
-        reply(p);
-      })
-    }
-  },
-  {
-    method: 'GET',
-    path: '/api/customers',
-    handler: (request, reply) => {
-      moltin.Authenticate(() => {
-        let p = new Promise((resolve, reject) => {
-          moltin.Customer.Find({
-            email: request.query.email,
           }, (customer) => {
             resolve(customer);
           })

@@ -80,7 +80,7 @@ export class LoggedOut extends Component {
         .query({email: email})
         .set('Accept', 'application/json')
         .end((err, res) => {
-          if (res.body.length > 0) {
+          if (res.body.email) {
             browserHistory.push('/login/?location=checkout&email=' + email);
           } else if (password.length > 6 && password == password_confirm) {
             _submitRequest();
@@ -142,12 +142,17 @@ export class LoggedOut extends Component {
           .set('Accept', 'application/json')
           .end((err, res) => {
             if (res.body) {
-              let customer = this.state.customer;
-              customer.password = null;
-              this.setState({
-                customer: customer,
-              })
-              _sendCustomerDetails(res.body.id);
+              request.post('/api/login')
+                .send(this.state.customer)
+                .set('Accept', 'application/json')
+                .end((err, res) => {
+                });
+              // let customer = this.state.customer;
+              // customer.password = null;
+              // this.setState({
+              //   customer: customer,
+              // })
+              // _sendCustomerDetails(res.body.id);
             } else {
               this.setState({
                 error_message: 'There was some type of issue.  Please try again',

@@ -11,9 +11,25 @@ export default class Login extends Component {
       location: this.props.location.query.location || null,
       email: this.props.location.query.email || null,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     ReactDOM.findDOMNode(this.refs.email).value = this.state.email || null;
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    let email = ReactDOM.findDOMNode(this.refs.email).value.trim().toLowerCase();
+    let password = ReactDOM.findDOMNode(this.refs.password).value.trim();
+    request
+      .post('/api/login')
+      .send({
+        email: email,
+        password: password,
+      })
+      .set('Accept','application/json')
+      .end((err, res) => {
+        console.log(res);
+      });
   }
   render() {
     return (

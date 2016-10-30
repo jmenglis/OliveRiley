@@ -74,11 +74,11 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _hapiSass = __webpack_require__(27);
+	var _hapiSass = __webpack_require__(28);
 
 	var _hapiSass2 = _interopRequireDefault(_hapiSass);
 
-	var _yar = __webpack_require__(28);
+	var _yar = __webpack_require__(29);
 
 	var _yar2 = _interopRequireDefault(_yar);
 
@@ -1398,7 +1398,7 @@
 
 	      if (email === email_confirm) {
 	        _superagent2.default.get('/api/customers').query({ email: email }).set('Accept', 'application/json').end(function (err, res) {
-	          if (res.body.length > 0) {
+	          if (res.body.email) {
 	            _reactRouter.browserHistory.push('/login/?location=checkout&email=' + email);
 	          } else if (password.length > 6 && password == password_confirm) {
 	            _submitRequest();
@@ -1455,12 +1455,13 @@
 	        } else {
 	          _superagent2.default.post('/api/customers').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {
 	            if (res.body) {
-	              var customer = _this5.state.customer;
-	              customer.password = null;
-	              _this5.setState({
-	                customer: customer
-	              });
-	              _sendCustomerDetails(res.body.id);
+	              _superagent2.default.post('/api/login').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {});
+	              // let customer = this.state.customer;
+	              // customer.password = null;
+	              // this.setState({
+	              //   customer: customer,
+	              // })
+	              // _sendCustomerDetails(res.body.id);
 	            } else {
 	              _this5.setState({
 	                error_message: 'There was some type of issue.  Please try again'
@@ -1720,6 +1721,7 @@
 	      location: _this.props.location.query.location || null,
 	      email: _this.props.location.query.email || null
 	    };
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    return _this;
 	  }
 
@@ -1727,6 +1729,19 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _reactDom2.default.findDOMNode(this.refs.email).value = this.state.email || null;
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit(event) {
+	      event.preventDefault();
+	      var email = _reactDom2.default.findDOMNode(this.refs.email).value.trim().toLowerCase();
+	      var password = _reactDom2.default.findDOMNode(this.refs.password).value.trim();
+	      _superagent2.default.post('/api/login').send({
+	        email: email,
+	        password: password
+	      }).set('Accept', 'application/json').end(function (err, res) {
+	        console.log(res);
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -1822,10 +1837,15 @@
 
 	var _customer2 = _interopRequireDefault(_customer);
 
+	var _login = __webpack_require__(27);
+
+	var _login2 = _interopRequireDefault(_login);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports = [].concat(_product2.default, _category2.default, _cart2.default, _customer2.default);
 	// import checkout from './checkout.js'
+
+	module.exports = [].concat(_product2.default, _category2.default, _cart2.default, _customer2.default, _login2.default);
 
 /***/ },
 /* 21 */
@@ -1995,6 +2015,24 @@
 	});
 
 	module.exports = [{
+	  method: 'GET',
+	  path: '/api/customers',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        moltin.Customer.Find({
+	          email: request.query.email
+	        }, function (customer) {
+	          resolve(customer);
+	        });
+	      });
+	      p.then(function (res) {
+	        console.log(res);
+	        reply({ email: res[0].email });
+	      });
+	    });
+	  }
+	}, {
 	  method: 'POST',
 	  path: '/api/customers',
 	  handler: function handler(request, reply) {
@@ -2005,24 +2043,6 @@
 	          last_name: request.payload.last_name,
 	          email: request.payload.email,
 	          password: request.payload.password
-	        }, function (customer) {
-	          resolve(customer);
-	        });
-	      });
-	      p.then(function (res) {
-	        return res;
-	      });
-	      reply(p);
-	    });
-	  }
-	}, {
-	  method: 'GET',
-	  path: '/api/customers',
-	  handler: function handler(request, reply) {
-	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Customer.Find({
-	          email: request.query.email
 	        }, function (customer) {
 	          resolve(customer);
 	        });
@@ -2062,12 +2082,56 @@
 
 /***/ },
 /* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _superagent = __webpack_require__(12);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(22).config();
+
+
+	var moltin = __webpack_require__(23)({
+	  publicId: process.env.MOLTIN_CLIENTID,
+	  secretKey: process.env.MOLTIN_CLIENTSECRET
+	});
+
+	module.exports = [{
+	  method: 'POST',
+	  path: '/api/login',
+	  handler: function handler(request, reply) {
+	    moltin.Authenticate(function () {
+	      var p = new Promise(function (resolve, reject) {
+	        _superagent2.default.post('https://api.molt.in/v1/customers/token?email=' + request.payload.email + '&password=' + request.payload.password).set('Authorization', 'Bearer ' + moltin.options.auth.token).end(function (err, res) {
+	          resolve(res);
+	        });
+	      });
+	      p.then(function (res) {
+	        request.yar.set('user', {
+	          email: res.body.result.email,
+	          token: res.body.result.token
+	        });
+
+	        var myUser = request.yar.get('user');
+	        console.log(myUser);
+	      });
+	      reply({ loggedIn: true });
+	    });
+	  }
+	}];
+
+/***/ },
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = require("hapi-sass");
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = require("yar");
