@@ -28,7 +28,7 @@ export default class Login extends Component {
       })
       .set('Accept','application/json')
       .end((err, res) => {
-        console.log(res);
+        // Add changes here for when a user is logged in
       });
   }
   render() {

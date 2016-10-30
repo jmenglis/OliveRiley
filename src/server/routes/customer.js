@@ -19,8 +19,10 @@ module.exports = [
           })
         });
         p.then((res) => {
-          console.log(res);
           reply({email: res[0].email});
+        })
+          .catch((res) => {
+            reply({email: null});
         });
       })
     }
@@ -51,10 +53,11 @@ module.exports = [
     method: 'POST',
     path: '/api/customers/{customerid}/address',
     handler: (request, reply) => {
-      console.log(request.payload);
-      moltin.Authenticate(() => {
-        let p = new Promise((resolve, reject) => {
-          moltin.Address.Create(request.params.customerid, {
+      let userSession = request.yar.get('user');
+      if (userSession.id === request.params.customerid) {
+        moltin.Authenticate(() => {
+          let p = new Promise((resolve, reject) => {
+            moltin.Address.Create(request.params.customerid, {
               first_name: request.payload.first_name,
               last_name: request.payload.last_name,
               address_1: request.payload.address1,
@@ -63,14 +66,17 @@ module.exports = [
               postcode: request.payload.zipcode,
               country: 'US',
             }, (customer) => {
-            resolve(customer);
-          })
-        });
-        p.then((res) => {
-          return res;
-        });
-        reply(p);
-      })
+              resolve(customer);
+            })
+          });
+          p.then((res) => {
+            return res;
+          });
+          reply(p);
+        })
+      } else {
+        reply({ msg: 'You are not authorized to do this' });
+      }
     }
   },
 ]

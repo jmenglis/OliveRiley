@@ -135,6 +135,27 @@
 	//   }
 	// })
 
+	server.route({
+	  method: 'GET',
+	  path: '/yar/get/',
+	  config: {
+	    handler: function handler(request, reply) {
+	      return reply(request.yar._store);
+	    }
+	  }
+	});
+
+	server.route({
+	  method: 'GET',
+	  path: '/yar/logout/',
+	  config: {
+	    handler: function handler(request, reply) {
+	      request.yar.reset();
+	      reply('Done');
+	    }
+	  }
+	});
+
 	// fonts route
 	server.route({
 	  method: 'GET',
@@ -741,7 +762,6 @@
 	        fade: true,
 	        cssEase: "linear"
 	      };
-	      console.log(this.state);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -1395,6 +1415,7 @@
 	      var email_confirm = _reactDom2.default.findDOMNode(this.refs.email_confirm).value.trim().toLowerCase();
 	      var password = _reactDom2.default.findDOMNode(this.refs.password).value.trim();
 	      var password_confirm = _reactDom2.default.findDOMNode(this.refs.password_confirm).value.trim();
+	      console.log(email);
 
 	      if (email === email_confirm) {
 	        _superagent2.default.get('/api/customers').query({ email: email }).set('Accept', 'application/json').end(function (err, res) {
@@ -1455,13 +1476,26 @@
 	        } else {
 	          _superagent2.default.post('/api/customers').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {
 	            if (res.body) {
-	              _superagent2.default.post('/api/login').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {});
-	              // let customer = this.state.customer;
-	              // customer.password = null;
-	              // this.setState({
-	              //   customer: customer,
-	              // })
-	              // _sendCustomerDetails(res.body.id);
+	              (function () {
+	                var userId = res.body.id;
+	                _superagent2.default.post('/api/login').send({
+	                  email: _this5.state.customer.email,
+	                  password: _this5.state.customer.password
+	                }).set('Accept', 'application/json').end(function (err, res) {
+	                  if (res.body.loggedIn === true) {
+	                    var customer = _this5.state.customer;
+	                    customer.password = null;
+	                    _this5.setState({
+	                      customer: customer
+	                    });
+	                    _sendCustomerDetails(userId);
+	                  } else {
+	                    _this5.setState({
+	                      error_message: 'There was some type of issue. Please try again'
+	                    });
+	                  }
+	                });
+	              })();
 	            } else {
 	              _this5.setState({
 	                error_message: 'There was some type of issue.  Please try again'
@@ -1740,7 +1774,7 @@
 	        email: email,
 	        password: password
 	      }).set('Accept', 'application/json').end(function (err, res) {
-	        console.log(res);
+	        // Add changes here for when a user is logged in
 	      });
 	    }
 	  }, {
@@ -2027,8 +2061,9 @@
 	        });
 	      });
 	      p.then(function (res) {
-	        console.log(res);
 	        reply({ email: res[0].email });
+	      }).catch(function (res) {
+	        reply({ email: null });
 	      });
 	    });
 	  }
@@ -2057,26 +2092,30 @@
 	  method: 'POST',
 	  path: '/api/customers/{customerid}/address',
 	  handler: function handler(request, reply) {
-	    console.log(request.payload);
-	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Address.Create(request.params.customerid, {
-	          first_name: request.payload.first_name,
-	          last_name: request.payload.last_name,
-	          address_1: request.payload.address1,
-	          city: request.payload.city,
-	          county: request.payload.state,
-	          postcode: request.payload.zipcode,
-	          country: 'US'
-	        }, function (customer) {
-	          resolve(customer);
+	    var userSession = request.yar.get('user');
+	    if (userSession.id === request.params.customerid) {
+	      moltin.Authenticate(function () {
+	        var p = new Promise(function (resolve, reject) {
+	          moltin.Address.Create(request.params.customerid, {
+	            first_name: request.payload.first_name,
+	            last_name: request.payload.last_name,
+	            address_1: request.payload.address1,
+	            city: request.payload.city,
+	            county: request.payload.state,
+	            postcode: request.payload.zipcode,
+	            country: 'US'
+	          }, function (customer) {
+	            resolve(customer);
+	          });
 	        });
+	        p.then(function (res) {
+	          return res;
+	        });
+	        reply(p);
 	      });
-	      p.then(function (res) {
-	        return res;
-	      });
-	      reply(p);
-	    });
+	    } else {
+	      reply({ msg: 'You are not authorized to do this' });
+	    }
 	  }
 	}];
 
@@ -2105,21 +2144,14 @@
 	  path: '/api/login',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        _superagent2.default.post('https://api.molt.in/v1/customers/token?email=' + request.payload.email + '&password=' + request.payload.password).set('Authorization', 'Bearer ' + moltin.options.auth.token).end(function (err, res) {
-	          resolve(res);
-	        });
-	      });
-	      p.then(function (res) {
+	      _superagent2.default.post('https://api.molt.in/v1/customers/token?email=' + request.payload.email + '&password=' + request.payload.password).set('Authorization', 'Bearer ' + moltin.options.auth.token).end(function (err, res) {
 	        request.yar.set('user', {
+	          id: res.body.result.id,
 	          email: res.body.result.email,
 	          token: res.body.result.token
 	        });
-
-	        var myUser = request.yar.get('user');
-	        console.log(myUser);
+	        reply({ loggedIn: true });
 	      });
-	      reply({ loggedIn: true });
 	    });
 	  }
 	}];

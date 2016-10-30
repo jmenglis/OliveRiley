@@ -73,6 +73,7 @@ export class LoggedOut extends Component {
     let email_confirm = ReactDOM.findDOMNode(this.refs.email_confirm).value.trim().toLowerCase();
     let password = ReactDOM.findDOMNode(this.refs.password).value.trim();
     let password_confirm = ReactDOM.findDOMNode(this.refs.password_confirm).value.trim();
+    console.log(email);
 
     if (email === email_confirm) {
       request
@@ -142,17 +143,27 @@ export class LoggedOut extends Component {
           .set('Accept', 'application/json')
           .end((err, res) => {
             if (res.body) {
+              let userId = res.body.id;
               request.post('/api/login')
-                .send(this.state.customer)
+                .send({
+                  email: this.state.customer.email,
+                  password: this.state.customer.password,
+                })
                 .set('Accept', 'application/json')
                 .end((err, res) => {
+                  if (res.body.loggedIn === true) {
+                    let customer = this.state.customer;
+                    customer.password = null;
+                    this.setState({
+                      customer: customer,
+                    })
+                    _sendCustomerDetails(userId);
+                  } else {
+                    this.setState({
+                      error_message: 'There was some type of issue. Please try again'
+                    })
+                  }
                 });
-              // let customer = this.state.customer;
-              // customer.password = null;
-              // this.setState({
-              //   customer: customer,
-              // })
-              // _sendCustomerDetails(res.body.id);
             } else {
               this.setState({
                 error_message: 'There was some type of issue.  Please try again',

@@ -59,6 +59,25 @@ server.register([Inert, {
 //   }
 // })
 
+server.route({
+  method: 'GET',
+  path: '/yar/get/',
+  config: {
+    handler: (request, reply) => reply(request.yar._store)
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/yar/logout/',
+  config: {
+    handler: (request, reply) => {
+      request.yar.reset();
+      reply('Done');
+    }
+  }
+});
+
 // fonts route
 server.route({
   method: 'GET',

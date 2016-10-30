@@ -76,8 +76,7 @@ export default class Product extends Component {
       infinite: true,
       fade: true,
       cssEase: "linear",
-    }
-    console.log(this.state)
+    };
     return (
       <div>
         {this.state.product.map((prod, i) => {
