@@ -1506,7 +1506,9 @@
 	      };
 
 	      var _sendCustomerDetails = function _sendCustomerDetails(customerid) {
-	        _superagent2.default.post('/api/customers/' + customerid + '/address').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {});
+	        _superagent2.default.post('/api/customers/' + customerid + '/address').send(_this5.state.customer).set('Accept', 'application/json').end(function (err, res) {
+	          // Add the move forward route for the next route.
+	        });
 	      };
 	    }
 	  }, {
