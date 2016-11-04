@@ -74,18 +74,15 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _hapiSass = __webpack_require__(28);
+	var _hapiSass = __webpack_require__(27);
 
 	var _hapiSass2 = _interopRequireDefault(_hapiSass);
 
-	var _yar = __webpack_require__(29);
+	var _yar = __webpack_require__(28);
 
 	var _yar2 = _interopRequireDefault(_yar);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	__webpack_require__(22).config();
-
 
 	var server = new _hapi2.default.Server({
 	  connections: {
@@ -1861,19 +1858,19 @@
 
 	var _product2 = _interopRequireDefault(_product);
 
-	var _category = __webpack_require__(24);
+	var _category = __webpack_require__(23);
 
 	var _category2 = _interopRequireDefault(_category);
 
-	var _cart = __webpack_require__(25);
+	var _cart = __webpack_require__(24);
 
 	var _cart2 = _interopRequireDefault(_cart);
 
-	var _customer = __webpack_require__(26);
+	var _customer = __webpack_require__(25);
 
 	var _customer2 = _interopRequireDefault(_customer);
 
-	var _login = __webpack_require__(27);
+	var _login = __webpack_require__(26);
 
 	var _login2 = _interopRequireDefault(_login);
 
@@ -1889,9 +1886,7 @@
 
 	'use strict';
 
-	__webpack_require__(22).config();
-
-	var moltin = __webpack_require__(23)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1934,23 +1929,15 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = require("dotenv");
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
 	module.exports = require("moltin");
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(22).config();
-
-	var moltin = __webpack_require__(23)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -1976,14 +1963,12 @@
 	}];
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(22).config();
-
-	var moltin = __webpack_require__(23)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -2038,14 +2023,12 @@
 	}];
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(22).config();
-
-	var moltin = __webpack_require__(23)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -2122,7 +2105,7 @@
 	}];
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2133,10 +2116,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(22).config();
-
-
-	var moltin = __webpack_require__(23)({
+	var moltin = __webpack_require__(22)({
 	  publicId: process.env.MOLTIN_CLIENTID,
 	  secretKey: process.env.MOLTIN_CLIENTSECRET
 	});
@@ -2159,13 +2139,13 @@
 	}];
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = require("hapi-sass");
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = require("yar");

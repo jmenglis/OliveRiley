@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const moltin = require('moltin')({
   publicId: process.env.MOLTIN_CLIENTID,
   secretKey: process.env.MOLTIN_CLIENTSECRET,
@@ -10,15 +8,15 @@ module.exports = [
     method: 'POST',
     path: '/api/cart/add',
     handler: (request) => {
-      moltin.Authenticate(() => {
+      moltin.Authenticate(() => { // eslint-disable-line
         let options = null;
         if (request.payload.modifierId && request.payload.variationId) {
-          let modifierId = request.payload.modifierId;
-          let variationId = request.payload.variationId;
+          const modifierId = request.payload.modifierId;
+          const variationId = request.payload.variationId;
           options = {};
           options[modifierId] = variationId;
         }
-        moltin.Cart.Insert(request.payload.productId, '1', options, () => {});
+        moltin.Cart.Insert(request.payload.productId, '1', options, () => {}); // eslint-disable-line
       });
     },
   },
@@ -26,9 +24,9 @@ module.exports = [
     method: 'GET',
     path: '/api/cart',
     handler: (request, reply) => {
-      moltin.Authenticate(() => {
-        let p = new Promise((resolve) => {
-          moltin.Cart.Contents((items) => {
+      moltin.Authenticate(() => { // eslint-disable-line
+        const p = new Promise((resolve) => {
+          moltin.Cart.Contents((items) => { // eslint-disable-line
             resolve(items);
           });
         });
@@ -41,9 +39,9 @@ module.exports = [
     method: 'POST',
     path: '/api/cart/quantity',
     handler: (request, reply) => {
-      moltin.Authenticate(() => {
-        let p = new Promise((resolve) => {
-          moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, (item) => {
+      moltin.Authenticate(() => { // eslint-disable-line
+        const p = new Promise((resolve) => {
+          moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, (item) => { // eslint-disable-line
             resolve(item);
           });
         });

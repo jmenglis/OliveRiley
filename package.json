@@ -9,8 +9,9 @@
     "build:webpackserver": "webpack --config webpack.webpackserver.config.js",
     "dev-server": "node webpack.js",
     "server": "node app.js",
-    "start": "npm run dev-server & npm run server",
-    "build": "npm run build:server && npm run build:webpackserver"
+    "start": "yarn run dev-server & yarn run server",
+    "build": "yarn run build:server && yarn run build:webpackserver",
+    "torus": "torus run yarn start"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,6 @@
   },
   "homepage": "https://github.com/jmenglis/OliveRiley#readme",
   "dependencies": {
-    "dotenv": "^2.0.0",
     "hapi": "^15.2.0",
     "inert": "^4.0.1",
     "moltin": "^1.0.4",
