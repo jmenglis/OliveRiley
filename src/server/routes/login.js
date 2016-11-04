@@ -1,4 +1,3 @@
-require('dotenv').config();
 import agent from 'superagent'
 
 const moltin = require('moltin')({

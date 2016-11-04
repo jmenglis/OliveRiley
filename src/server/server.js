@@ -1,4 +1,3 @@
-require('dotenv').config();
 import Hapi from 'hapi'
 import React from 'react'
 import Path from 'path'
