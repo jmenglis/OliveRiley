@@ -1947,9 +1947,12 @@
 	  path: '/api/category',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
+	      // eslint-disable-line
+	      var p = new Promise(function (resolve) {
 	        moltin.Category.List({ slug: request.payload.category }, function (category) {
+	          // eslint-disable-line
 	          moltin.Product.Search({ category: category[0].id }, function (product) {
+	            // eslint-disable-line
 	            resolve(product);
 	          });
 	        });
@@ -1978,6 +1981,7 @@
 	  path: '/api/cart/add',
 	  handler: function handler(request) {
 	    moltin.Authenticate(function () {
+	      // eslint-disable-line
 	      var options = null;
 	      if (request.payload.modifierId && request.payload.variationId) {
 	        var modifierId = request.payload.modifierId;
@@ -1985,7 +1989,7 @@
 	        options = {};
 	        options[modifierId] = variationId;
 	      }
-	      moltin.Cart.Insert(request.payload.productId, '1', options, function () {});
+	      moltin.Cart.Insert(request.payload.productId, '1', options, function () {}); // eslint-disable-line
 	    });
 	  }
 	}, {
@@ -1993,8 +1997,10 @@
 	  path: '/api/cart',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
+	      // eslint-disable-line
 	      var p = new Promise(function (resolve) {
 	        moltin.Cart.Contents(function (items) {
+	          // eslint-disable-line
 	          resolve(items);
 	        });
 	      });
@@ -2009,8 +2015,10 @@
 	  path: '/api/cart/quantity',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
+	      // eslint-disable-line
 	      var p = new Promise(function (resolve) {
 	        moltin.Cart.Update(request.payload.id, { quantity: request.payload.quantity }, function (item) {
+	          // eslint-disable-line
 	          resolve(item);
 	        });
 	      });
@@ -2038,8 +2046,9 @@
 	  path: '/api/customers',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Customer.Find({
+	      // eslint-disable-line
+	      var p = new Promise(function (resolve) {
+	        moltin.Customer.Find({ // eslint-disable-line
 	          email: request.query.email
 	        }, function (customer) {
 	          resolve(customer);
@@ -2047,7 +2056,7 @@
 	      });
 	      p.then(function (res) {
 	        reply({ email: res[0].email });
-	      }).catch(function (res) {
+	      }).catch(function () {
 	        reply({ email: null });
 	      });
 	    });
@@ -2057,8 +2066,9 @@
 	  path: '/api/customers',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
-	      var p = new Promise(function (resolve, reject) {
-	        moltin.Customer.Create({
+	      // eslint-disable-line
+	      var p = new Promise(function (resolve) {
+	        moltin.Customer.Create({ // eslint-disable-line
 	          first_name: request.payload.first_name,
 	          last_name: request.payload.last_name,
 	          email: request.payload.email,
@@ -2080,8 +2090,9 @@
 	    var userSession = request.yar.get('user');
 	    if (userSession.id === request.params.customerid) {
 	      moltin.Authenticate(function () {
-	        var p = new Promise(function (resolve, reject) {
-	          moltin.Address.Create(request.params.customerid, {
+	        // eslint-disable-line
+	        var p = new Promise(function (resolve) {
+	          moltin.Address.Create(request.params.customerid, { // eslint-disable-line
 	            first_name: request.payload.first_name,
 	            last_name: request.payload.last_name,
 	            address_1: request.payload.address1,
@@ -2126,6 +2137,7 @@
 	  path: '/api/login',
 	  handler: function handler(request, reply) {
 	    moltin.Authenticate(function () {
+	      // eslint-disable-line
 	      _superagent2.default.post('https://api.molt.in/v1/customers/token?email=' + request.payload.email + '&password=' + request.payload.password).set('Authorization', 'Bearer ' + moltin.options.auth.token).end(function (err, res) {
 	        request.yar.set('user', {
 	          id: res.body.result.id,

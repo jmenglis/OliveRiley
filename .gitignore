@@ -4,3 +4,4 @@ development.json
 .env
 commit-msg.txt
 .nvmrc
+app.js
