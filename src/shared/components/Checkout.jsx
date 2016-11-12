@@ -31,9 +31,6 @@ export default class Checkout extends Component {
           this.setState({products: this.state.products.concat(itemObject)})
         }
       });
-    $(element).ready(() => {
-      $('select').material_select()
-    })
   }
   render() {
     return (

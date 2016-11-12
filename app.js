@@ -102,7 +102,7 @@
 	  force: true,
 	  debug: true,
 	  routePath: '/{file}.css',
-	  includePaths: ['./vendor'],
+	  includePaths: ['./vendor', '../../node_modules/susy/sass/susy'],
 	  outputStyle: 'nested',
 	  sourceComments: true,
 	  srcExtension: 'scss'
@@ -206,7 +206,7 @@
 	});
 
 	var renderPage = function renderPage(appHtml) {
-	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <div id=react-render><div>' + appHtml + '</div></div>\n    <script src="/javascripts/jquery-3.0.0.js"></script>\n    <script src="/javascripts/materialize.js"></script>\n    <script src="http://localhost:8080/js/application.js"></script>\n   ';
+	  return '\n    <!doctype html public="storage">\n    <html>\n    <meta charset=utf-8/>\n    <title>Application - Home</title>\n    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">\n    <link rel="stylesheet" href="/main.css" />\n    <body>\n    <div id=react-render><div>' + appHtml + '</div></div>\n    <script src="http://localhost:8080/js/application.js"></script>\n    </body>\n   ';
 	};
 
 	// starting server on port 3000
@@ -335,116 +335,22 @@
 	      'div',
 	      null,
 	      _react2.default.createElement(
-	        'h4',
+	        'div',
 	        { className: 'header-text' },
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/' },
-	          'Olive Riley'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        { className: 'header-sub' },
-	        'The world\'s premier destination'
-	      ),
-	      _react2.default.createElement(
-	        'ul',
-	        { id: 'dropdown1', className: 'dropdown-content' },
-	        _react2.default.createElement(
-	          'li',
+	          'h1',
 	          null,
 	          _react2.default.createElement(
-	            _NavLink2.default,
-	            { to: '/accessories/one/' },
-	            'one'
+	            _reactRouter.Link,
+	            { to: '/' },
+	            'Olive Riley'
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'li',
+	          'p',
 	          null,
-	          _react2.default.createElement(
-	            _NavLink2.default,
-	            { to: '/accessories/two/' },
-	            'two'
-	          )
+	          'The world\'s premier destination'
 	        )
-	      ),
-	      _react2.default.createElement(
-	        'nav',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'nav-wrapper' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'container' },
-	            _react2.default.createElement(
-	              'ul',
-	              { className: 'hide-on-med-down' },
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  _NavLink2.default,
-	                  { to: '/category/clothing/' },
-	                  'Clothing'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  _NavLink2.default,
-	                  { to: '/category/strollers/' },
-	                  'Strollers'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  _NavLink2.default,
-	                  { className: 'dropdown-button', to: '/category/accessories/', 'data-activates': 'dropdown1' },
-	                  'Accessories'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  _NavLink2.default,
-	                  { to: '/category/bottle/' },
-	                  'Bottle'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  _NavLink2.default,
-	                  { to: '/category/other/' },
-	                  'Other Things'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  _NavLink2.default,
-	                  { to: '/cart/' },
-	                  'Shopping Cart'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      ),
-	      _react2.default.createElement('br', null),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'container' },
-	        this.props.children || _react2.default.createElement(Home, null)
 	      )
 	    );
 	  }
@@ -602,7 +508,7 @@
 	      };
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'home-content' },
 	        _react2.default.createElement(
 	          _reactMasonryComponent2.default,
 	          {
@@ -1336,9 +1242,6 @@
 	          };
 	          _this2.setState({ products: _this2.state.products.concat(itemObject) });
 	        }
-	      });
-	      $(element).ready(function () {
-	        $('select').material_select();
 	      });
 	    }
 	  }, {

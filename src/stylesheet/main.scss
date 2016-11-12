@@ -1,42 +1,63 @@
 /* CSS declarations go here */
 // If you want to override materialize sass variables you can uncomment the following:
 @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700';
-@import 'vendor/slick-theme';
-@import 'vendor/slick';
-// import main scss file
-@import "vendor/materialize";
+@import 'base';
+//@import 'vendor/slick-theme';
+//@import 'vendor/slick';
+@import '../../node_modules/susy/sass/susy';
 
-$primary-color: color("white", "lighten-2");
+$susy: (
+  columns: 12,
+  gutter-position: split
+);
+
+.wrap {
+  @include container(1140px);
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+}
+h2 {
+  font-size: 1.5em;
+}
+h3 {
+  font-size: 1.3em;
+}
+h4 {
+  font-size: 1em;
+}
+h5 {
+  font-size: 0.8em;
+}
+h6 {
+  font-size: 0.7em;
+}
 
 .header-text {
-  text-align: center;
-  margin-bottom: 0;
+  > div {
+    &:nth-child(1) {
+      @include span(12);
+        text-align: center;
+    }
+    &:nth-child(2) {
+      @include span(12);
+        text-align: center;
+    }
+  }
 }
 
-.header-sub {
-  text-align: center;
-  font-style: italic;
-  margin-top: 0;
-}
-
-nav {
-  background: black;
-  height: 30px;
+.menu-bar {
   line-height: 30px;
-}
-
-nav ul a:hover {
-    background-color: rgba(255, 255, 255, 1);
-    color: rgba(0,0,0,1);
-}
-
-.centerize {
- text-align: center;
-}
-
-
-.righterize {
- text-align: right;
+  > ul li {
+    float: left;
+    margin-right: 20px;
+    text-align:center;
+  }
 }
 
 .product-grid {
@@ -47,18 +68,5 @@ nav ul a:hover {
 .product-image-element {
   float: left;
   width: 33.3%;
-  height: 33.3%;
+  height: auto;
 }
-
-#cart-list {
-  float: right;
-  li {
-    display: inline;
-    padding: 0 15px 0 25px;
-    float: left;
-  }
-  input {
-    height: 1.2rem;
-  }
-}
-

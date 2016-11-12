@@ -28,7 +28,7 @@ const options = {
   force: true,
   debug: true,
   routePath: '/{file}.css',
-  includePaths: ['./vendor'],
+  includePaths: ['./vendor', '../../node_modules/susy/sass/susy'],
   outputStyle: 'nested',
   sourceComments: true,
   srcExtension: 'scss',
@@ -137,10 +137,10 @@ const renderPage = (appHtml) => {
     <title>Application - Home</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/main.css" />
+    <body>
     <div id=react-render><div>${appHtml}</div></div>
-    <script src="/javascripts/jquery-3.0.0.js"></script>
-    <script src="/javascripts/materialize.js"></script>
     <script src="http://localhost:8080/js/application.js"></script>
+    </body>
    `
 }
 

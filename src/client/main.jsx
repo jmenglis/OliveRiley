@@ -7,5 +7,3 @@ render(
   <Router routes={routes} history={browserHistory} />,
   document.getElementById('react-render')
 )
-
-$(".dropdown-button").dropdown()
