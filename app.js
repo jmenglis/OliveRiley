@@ -338,19 +338,99 @@
 	        'div',
 	        { className: 'header-text' },
 	        _react2.default.createElement(
-	          'h1',
+	          'div',
 	          null,
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/' },
-	            'Olive Riley'
+	            'h1',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/' },
+	              'Olive Riley'
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'p',
+	          'div',
 	          null,
-	          'The world\'s premier destination'
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'The world\'s premier destination'
+	          )
 	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'wrap' },
+	        _react2.default.createElement(
+	          'nav',
+	          { className: 'menu-bar' },
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _NavLink2.default,
+	                { to: '/category/clothing/' },
+	                'Clothing'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _NavLink2.default,
+	                { to: '/category/strollers/' },
+	                'Strollers'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _NavLink2.default,
+	                { to: '/category/accessories/' },
+	                'Accessories'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _NavLink2.default,
+	                { to: '/category/bottle/' },
+	                'Bottle'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _NavLink2.default,
+	                { to: '/category/other/' },
+	                'Other Things'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _NavLink2.default,
+	                { to: '/cart/' },
+	                'Shopping Cart'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement('br', null)
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'wrap' },
+	        this.props.children || _react2.default.createElement(Home, null)
 	      )
 	    );
 	  }
