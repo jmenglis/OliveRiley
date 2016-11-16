@@ -35,12 +35,8 @@ export default class Product extends Component {
         this.setState({
           product: res.body,
           sizes: sizeArray
-        })
-        $(element).ready(() => {
-          $('select').material_select();
-          $('select').on('change', this.handleSelect.bind(this));
-        })
-      })
+        });
+      });
   }
   handleSelect(e) {
     let modifierId = this.state.sizes.find((d) => {

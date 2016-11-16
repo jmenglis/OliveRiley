@@ -61,12 +61,9 @@ h6 {
 }
 
 .product-grid {
-  // width: 100%;
-  margin: 0 auto;
 }
 
 .product-image-element {
-  float: left;
-  width: 33.3%;
-  height: auto;
+  display: table;
+  height: 360px;
 }

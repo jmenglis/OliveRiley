@@ -140,12 +140,10 @@ h6 {
     margin-right: 20px;
     text-align: center; }
 
-/* line 63, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
-.product-grid {
-  margin: 0 auto; }
-
-/* line 68, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+/* line 66, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
 .product-image-element {
-  float: left;
-  width: 33.3%;
-  height: auto; }
+  display: table;
+  height: 360px; }
+  /* line 69, /Users/jenglish/code/My_Projects/Brittany/OliveRiley/src/stylesheet/main.scss */
+  .product-image-element li {
+    vertical-align: bottom; }
